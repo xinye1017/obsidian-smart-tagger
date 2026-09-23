@@ -1,10 +1,6 @@
 # Smart Tagger
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/xinye1017/obsidian-smart-tagger/main/icon.png" width="96" height="96" alt="Smart Tagger Logo" onerror="this.style.display='none'"/>
-</p>
-
-<p align="center">
   <strong>⚡ High-Speed, Zero-Hallucination System-1 Intelligent Tagging Assistant for Obsidian</strong>
 </p>
 
@@ -29,6 +25,7 @@ Unlike conventional generative LLMs (such as ChatGPT or Claude) that produce ver
 
 * ⚡ **Sub-200ms Decision Speed**: Non-autoregressive probability evaluation architecture evaluates all tags simultaneously without text-generation latency.
 * 🎯 **100% Precision & Zero False Positives**: Verified on rigorous real-world held-out note sets with zero false labeling.
+* 🌐 **Bilingual Interface**: Seamlessly switch between English and Simplified Chinese directly from the plugin settings.
 * 🔒 **Privacy-First Architecture**: Your API Key is masked behind password-grade dots by default to prevent accidental exposure during screen sharing or video recording.
 * 🛡️ **Safe YAML Frontmatter Modifications**: Built strictly upon Obsidian's official `processFrontMatter` API to ensure your note structure, formatting, and indentation remain perfectly intact.
 
@@ -105,6 +102,7 @@ npm run build
 
 | Option | Description |
 |---|---|
+| **Language** | Switch UI language between English and Simplified Chinese. |
 | **Jev API Key** | Your TypeSafe Jev API Key (`apikey_...`). Masked with password dots by default. |
 | **Confidence Threshold** | Minimum confidence score to recommend or apply a tag (Default: `0.70`, Recommended: `0.60` - `0.80`). |
 | **Auto Inherit Parent Tag #AI** | Automatically appends `#AI` when fine-grained AI sub-tags are triggered. |

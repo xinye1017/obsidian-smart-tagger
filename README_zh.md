@@ -1,10 +1,6 @@
 # Smart Tagger
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/xinye1017/obsidian-smart-tagger/main/icon.png" width="96" height="96" alt="Smart Tagger Logo" onerror="this.style.display='none'"/>
-</p>
-
-<p align="center">
   <strong>⚡ 基于 TypeSafe Jev System-1 架构的 Obsidian 极速、零幻觉智能标签分类助手</strong>
 </p>
 
@@ -27,6 +23,7 @@
 
 * ⚡ **150 毫秒即刻返回**：无需等待文字生成，非自回归概率决策头实现毫秒级瞬间分类；
 * 🎯 **100% 精度与零假阳性**：在真实个人知识库留出样本集上实测准确率达 100%，杜绝误标与标签污染；
+* 🌐 **多语言界面**：原生支持在插件设置中自由切换简体中文与 English；
 * 🔒 **隐私至上设计**：API Key 采用密码级圆点遮罩存储与呈现，全面防范录屏与窥屏风险；
 * 🛡️ **安全写入与格式保全**：基于 Obsidian 官方 `processFrontMatter` 标准 API，绝不破坏原有 YAML 结构与笔记缩进格式。
 
@@ -36,7 +33,7 @@
 
 #### 1. ⚡ 毫秒级单篇推荐 (Active Note Tagging)
 * **左侧边栏 (Ribbon)**：点击左侧功能区的标签小图标，即刻对当前活动笔记进行毫秒级标签分析；
-* **命令面板 (`Ctrl+P` / `Cmd+P`)**：随时呼出命令 `Smart Tagger: Suggest Tags for Active Note`；
+* **命令面板 (`Ctrl+P` / `Cmd+P`)**：随时呼出命令 `Smart Tagger: 为当前活动笔记推荐标签`；
 * **右键上下文菜单**：在笔记编辑区任意位置右键，即可快捷触发标签分析；
 * **灵活采纳**：支持针对单项标签点击 `+ 添加`，或一键点击 `⚡ 一键应用所有高置信标签` 批量写入。
 
@@ -103,6 +100,7 @@ npm run build
 
 | 配置项 | 说明 |
 |---|---|
+| **界面语言 (Language)** | 支持自由切换为简体中文或 English |
 | **Jev API Key** | 填入您的 TypeSafe Jev API Key（支持密码密文遮罩与一键显隐） |
 | **置信度阈值 (Confidence Threshold)** | 判定标签成立的最低置信度，默认 `0.70`（推荐区间 `0.60` - `0.80`） |
 | **自动继承父标签 #AI** | 启用后，命中具体 AI 细分子标签时自动补齐 `#AI` |
