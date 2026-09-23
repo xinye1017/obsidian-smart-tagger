@@ -135,24 +135,29 @@ var translations = {
     "command.syncVaultTags": "\u81EA\u52A8\u68C0\u6D4B\u5E76\u540C\u6B65\u77E5\u8BC6\u5E93\u6807\u7B7E\u5E93 (Detect and Sync Vault Tags)",
     "menu.suggestTags": "Smart Tagger: \u667A\u80FD\u6807\u7B7E\u63A8\u8350",
     "settings.title": "Smart Tagger \u8BBE\u7F6E",
-    "settings.subtitle": "\u57FA\u4E8E TypeSafe Jev System-1 \u6A21\u578B\u7684\u6BEB\u79D2\u7EA7\u667A\u80FD\u7B14\u8BB0\u6807\u7B7E\u63A8\u8350\u4E0E\u5168\u81EA\u52A8\u5206\u7C7B\u52A9\u624B\u3002",
-    "settings.language.name": "\u754C\u9762\u8BED\u8A00 (Language)",
-    "settings.language.desc": "\u9009\u62E9\u63D2\u4EF6\u754C\u9762\u7684\u663E\u793A\u8BED\u8A00\u3002\u6807\u7B7E\u89C4\u5219\u5E93\u5185\u5BB9\u4E0D\u4F1A\u968F\u8BED\u8A00\u5207\u6362\u800C\u6539\u53D8\u3002",
-    "settings.apiKey.name": "Jev API Key",
-    "settings.apiKey.desc": "\u4F60\u7684 TypeSafe Jev \u5B98\u65B9 API \u5BC6\u94A5\uFF08\u8F93\u5165\u540E\u4EE5\u5BC6\u7801\u5BC6\u6587\u906E\u7F69\u4FDD\u62A4\uFF09\u3002",
+    "settings.subtitle": "\u57FA\u4E8E TypeSafe Jev System-1 \u51B3\u7B56\u5F15\u64CE\u7684\u6BEB\u79D2\u7EA7\u667A\u80FD\u7B14\u8BB0\u6807\u7B7E\u63A8\u8350\u4E0E\u5168\u81EA\u52A8\u5206\u7C7B\u52A9\u624B\u3002",
+    "settings.section.general": "\u2699\uFE0F \u57FA\u672C\u914D\u7F6E",
+    "settings.language.name": "\u754C\u9762\u8BED\u8A00",
+    "settings.language.desc": "\u9009\u62E9\u63D2\u4EF6\u754C\u9762\u6240\u4F7F\u7528\u7684\u8BED\u8A00\uFF08\u652F\u6301\u7B80\u4F53\u4E2D\u6587\u4E0E English\uFF09\u3002",
+    "settings.apiKey.name": "Jev API \u5BC6\u94A5",
+    "settings.apiKey.desc": "TypeSafe Jev \u5B98\u65B9 API \u5BC6\u94A5\uFF0C\u8F93\u5165\u540E\u81EA\u52A8\u91C7\u7528\u5BC6\u7801\u63A9\u7801\u4FDD\u62A4\u3002",
     "settings.apiKey.toggleTooltip": "\u5207\u6362\u663E\u793A/\u9690\u85CF API Key",
     "settings.threshold.name": "\u7F6E\u4FE1\u5EA6\u63A8\u8350\u9608\u503C",
-    "settings.threshold.desc": "\u4EC5\u63A8\u8350\u7F6E\u4FE1\u5EA6\u5927\u4E8E\u7B49\u4E8E\u8BE5\u9608\u503C\u7684\u6807\u7B7E\uFF08\u9ED8\u8BA4 0.70\uFF0C\u5B9E\u6D4B\u5177\u5907 95%~100% \u6781\u9AD8\u51C6\u786E\u5EA6\uFF09\u3002",
-    "settings.quickActions.title": "\u26A1 \u5FEB\u6377\u64CD\u4F5C\u4E0E\u5168\u5E93\u7EF4\u62A4",
-    "settings.batch.name": "\u6279\u91CF\u626B\u63CF\u4E0E\u6253\u6807",
-    "settings.batch.desc": "\u9009\u62E9\u626B\u63CF\u6574\u4E2A\u77E5\u8BC6\u5E93\u6216\u6307\u5B9A\u6587\u4EF6\u5939\uFF0C\u4E3A\u5176\u4E2D\u7684 Markdown \u7B14\u8BB0\u6DFB\u52A0\u9AD8\u7F6E\u4FE1\u4E14\u5C1A\u672A\u5B58\u5728\u7684\u6807\u7B7E\u3002",
-    "settings.batch.button": "\u{1F680} \u6253\u5F00\u6279\u91CF\u6253\u6807\u9762\u677F",
-    "settings.sync.name": "\u81EA\u52A8\u68C0\u6D4B\u5E76\u540C\u6B65\u77E5\u8BC6\u5E93\u6807\u7B7E\u5E93",
-    "settings.sync.desc": "\u81EA\u52A8\u626B\u63CF\u77E5\u8BC6\u5E93\u5F53\u524D\u5DF2\u5B58\u5728\u7684\u6240\u6709\u5386\u53F2\u6807\u7B7E\uFF0C\u5E76\u5C06\u65B0\u53D1\u73B0\u7684\u6807\u7B7E\u81EA\u52A8\u8865\u5145\u5230\u4E0B\u65B9\u7684\u89C4\u5219\u5E93\u4E2D\u3002",
-    "settings.sync.button": "\u{1F50D} \u626B\u63CF\u77E5\u8BC6\u5E93\u6807\u7B7E",
-    "settings.tagLibrary.title": "\u6807\u7B7E\u89C4\u5219\u5E93 (Tag Criteria Library)",
-    "settings.tagLibrary.desc": "\u6807\u7B7E\u5E93\u521D\u59CB\u4E3A\u7A7A\u3002\u70B9\u51FB\u4E0A\u65B9\u6309\u94AE\u8BFB\u53D6\u77E5\u8BC6\u5E93\u4E2D\u5DF2\u4F7F\u7528\u7684\u6807\u7B7E\u5E76\u751F\u6210\u89C4\u5219\uFF0C\u53EF\u968F\u65F6\u542F\u7528\u6216\u5173\u95ED\u6807\u7B7E\u3002",
+    "settings.threshold.desc": "\u4EC5\u5F53\u6A21\u578B\u6253\u6807\u7F6E\u4FE1\u5EA6\u8FBE\u5230\u6216\u8D85\u8FC7\u8BE5\u9608\u503C\u65F6\u624D\u8FDB\u884C\u63A8\u8350\u6216\u5199\u5165\uFF08\u9ED8\u8BA4 70%\uFF09\u3002",
+    "settings.section.actions": "\u{1F680} \u6279\u91CF\u64CD\u4F5C\u4E0E\u7EF4\u62A4",
+    "settings.batch.name": "\u6279\u91CF\u626B\u63CF\u6253\u6807",
+    "settings.batch.desc": "\u6253\u5F00\u5168\u5E93\u6279\u91CF\u6253\u6807\u9762\u677F\uFF0C\u652F\u6301\u5168\u5E93\u6216\u6309\u6587\u4EF6\u5939\u626B\u63CF\u5E76\u81EA\u52A8\u8FFD\u52A0\u9AD8\u7F6E\u4FE1\u6807\u7B7E\u3002",
+    "settings.batch.button": "\u6253\u5F00\u6279\u91CF\u9762\u677F",
+    "settings.sync.name": "\u626B\u63CF\u540C\u6B65\u6807\u7B7E\u5E93",
+    "settings.sync.desc": "\u5FEB\u901F\u63D0\u53D6\u77E5\u8BC6\u5E93\u5F53\u524D\u6240\u6709\u5DF2\u5B58\u5728\u7684\u5386\u53F2\u6807\u7B7E\uFF0C\u81EA\u52A8\u6269\u5145\u81F3\u4E0B\u65B9\u89C4\u5219\u5E93\u4E2D\u3002",
+    "settings.sync.button": "\u626B\u63CF\u6807\u7B7E\u5E93",
+    "settings.section.tags": "\u{1F3F7}\uFE0F \u6807\u7B7E\u89C4\u5219\u5E93",
+    "settings.tagLibrary.desc": "\u5F53\u524D\u7BA1\u7406\u7684\u5206\u7C7B\u6807\u7B7E\u5217\u8868\u3002\u70B9\u51FB\u5F00\u5173\u53EF\u968F\u65F6\u542F\u7528\u6216\u5173\u95ED\u7279\u5B9A\u6807\u7B7E\u7684\u81EA\u52A8\u8BC4\u4F30\u3002",
     "settings.tagLibrary.tagName": "#{name}",
+    "settings.tagLibrary.stats": "\u5171 {total} \u4E2A\u6807\u7B7E\uFF0C\u5DF2\u542F\u7528 {enabled} \u4E2A",
+    "settings.tagLibrary.enableAll": "\u5168\u90E8\u542F\u7528",
+    "settings.tagLibrary.disableAll": "\u5168\u90E8\u7981\u7528",
+    "settings.tagLibrary.empty": "\u{1F4A1} \u89C4\u5219\u5E93\u6682\u65E0\u6807\u7B7E\u3002\u8BF7\u70B9\u51FB\u4E0A\u65B9\u7684\u300C\u626B\u63CF\u6807\u7B7E\u5E93\u300D\u6309\u94AE\uFF0C\u5373\u53EF\u5FEB\u901F\u63D0\u53D6\u77E5\u8BC6\u5E93\u5DF2\u6709\u6807\u7B7E\uFF01",
     "tagSuggest.title": "\u{1F3F7}\uFE0F Smart Tagger: {name}",
     "tagSuggest.loadingSubtitle": "\u6B63\u5728\u5411 Jev System-1 \u51B3\u7B56\u6A21\u578B\u83B7\u53D6\u6BEB\u79D2\u7EA7\u6807\u7B7E\u7F6E\u4FE1\u5EA6\u5206\u6790...",
     "tagSuggest.loading": "AI \u51B3\u7B56\u5206\u6790\u4E2D...",
@@ -207,24 +212,29 @@ var translations = {
     "command.syncVaultTags": "Detect and sync vault tags",
     "menu.suggestTags": "Smart Tagger: Suggest Tags",
     "settings.title": "Smart Tagger Settings",
-    "settings.subtitle": "Millisecond, System-1 intelligent tag suggestion and fully automated classification assistant powered by the TypeSafe Jev model.",
-    "settings.language.name": "Interface language",
-    "settings.language.desc": "Choose the display language of the plugin interface. Tag rule contents do not change with the language.",
+    "settings.subtitle": "Millisecond System-1 intelligent tag suggestions and automated categorization powered by TypeSafe Jev.",
+    "settings.section.general": "\u2699\uFE0F General Settings",
+    "settings.language.name": "Interface Language",
+    "settings.language.desc": "Choose the display language for the plugin interface.",
     "settings.apiKey.name": "Jev API Key",
-    "settings.apiKey.desc": "Your official TypeSafe Jev API key (masked as a password after entry).",
+    "settings.apiKey.desc": "Your official TypeSafe Jev API key, automatically masked as password dots after entry.",
     "settings.apiKey.toggleTooltip": "Toggle API Key visibility",
-    "settings.threshold.name": "Confidence threshold",
-    "settings.threshold.desc": "Only tags with a confidence at or above this value are suggested (default 0.70; measured accuracy 95%\u2013100%).",
-    "settings.quickActions.title": "\u26A1 Quick actions & vault maintenance",
-    "settings.batch.name": "Batch scan and tag notes",
-    "settings.batch.desc": "Choose the whole vault or a folder, then add high-confidence tags that are not already present in its Markdown notes.",
-    "settings.batch.button": "\u{1F680} Open batch tagging panel",
-    "settings.sync.name": "Detect and sync vault tag library",
-    "settings.sync.desc": "Scan every tag already used in your vault and automatically add newly discovered tags to the rule library below.",
-    "settings.sync.button": "\u{1F50D} Scan vault tags",
-    "settings.tagLibrary.title": "Tag criteria library",
-    "settings.tagLibrary.desc": "The tag library starts empty. Use the button above to read tags already used in your vault and create rules, then enable or disable them as needed.",
+    "settings.threshold.name": "Confidence Threshold",
+    "settings.threshold.desc": "Only suggest or apply tags when the confidence reaches or exceeds this threshold (Default: 70%).",
+    "settings.section.actions": "\u{1F680} Batch Actions & Maintenance",
+    "settings.batch.name": "Batch Scan & Tag",
+    "settings.batch.desc": "Open the batch tagging panel to scan the entire vault or specific folders.",
+    "settings.batch.button": "Open Batch Panel",
+    "settings.sync.name": "Sync Vault Tags",
+    "settings.sync.desc": "Scan all existing tags across your vault and automatically add new tags to the rule library below.",
+    "settings.sync.button": "Scan Vault Tags",
+    "settings.section.tags": "\u{1F3F7}\uFE0F Tag Criteria Library",
+    "settings.tagLibrary.desc": "Target tags for evaluation. Toggle individual tags on or off as needed.",
     "settings.tagLibrary.tagName": "#{name}",
+    "settings.tagLibrary.stats": "{total} tags total, {enabled} enabled",
+    "settings.tagLibrary.enableAll": "Enable All",
+    "settings.tagLibrary.disableAll": "Disable All",
+    "settings.tagLibrary.empty": '\u{1F4A1} No tags in the rule library yet. Click "Scan Vault Tags" above to auto-detect existing tags from your vault!',
     "tagSuggest.title": "\u{1F3F7}\uFE0F Smart Tagger: {name}",
     "tagSuggest.loadingSubtitle": "Requesting millisecond tag confidence analysis from the Jev System-1 decision model...",
     "tagSuggest.loading": "Running AI decision analysis...",
@@ -466,12 +476,15 @@ var JevTaggerSettingTab = class extends import_obsidian3.PluginSettingTab {
   display() {
     const { containerEl } = this;
     containerEl.empty();
+    containerEl.addClass("jev-settings-container");
     const lang = this.plugin.settings.language;
-    containerEl.createEl("h2", { text: t(lang, "settings.title") });
-    containerEl.createEl("p", {
+    const headerEl = containerEl.createDiv({ cls: "jev-settings-header" });
+    headerEl.createEl("h2", { text: t(lang, "settings.title") });
+    headerEl.createEl("p", {
       text: t(lang, "settings.subtitle"),
       cls: "setting-item-description"
     });
+    new import_obsidian3.Setting(containerEl).setHeading().setName(t(lang, "settings.section.general"));
     new import_obsidian3.Setting(containerEl).setName(t(lang, "settings.language.name")).setDesc(t(lang, "settings.language.desc")).addDropdown((dropdown) => {
       LANGUAGES.forEach((key) => {
         dropdown.addOption(key, LANGUAGE_OPTIONS[key]);
@@ -488,6 +501,7 @@ var JevTaggerSettingTab = class extends import_obsidian3.PluginSettingTab {
       keyInputEl = text.inputEl;
       keyInputEl.type = "password";
       keyInputEl.placeholder = "apikey_...";
+      keyInputEl.addClass("jev-settings-apikey-input");
       text.setValue(this.plugin.settings.apiKey).onChange(async (value) => {
         this.plugin.settings.apiKey = value.trim();
         await this.plugin.saveSettings();
@@ -499,13 +513,21 @@ var JevTaggerSettingTab = class extends import_obsidian3.PluginSettingTab {
         btn.setIcon(isRevealed ? "eye" : "eye-off");
       });
     });
-    new import_obsidian3.Setting(containerEl).setName(t(lang, "settings.threshold.name")).setDesc(t(lang, "settings.threshold.desc")).addSlider(
+    const thresholdSetting = new import_obsidian3.Setting(containerEl).setName(t(lang, "settings.threshold.name")).setDesc(t(lang, "settings.threshold.desc"));
+    const currentPct = Math.round(this.plugin.settings.confidenceThreshold * 100);
+    const badgeEl = thresholdSetting.controlEl.createSpan({
+      cls: "jev-threshold-badge",
+      text: `${currentPct}%`
+    });
+    thresholdSetting.addSlider(
       (slider) => slider.setLimits(0.1, 0.95, 0.05).setValue(this.plugin.settings.confidenceThreshold).setDynamicTooltip().onChange(async (value) => {
         this.plugin.settings.confidenceThreshold = value;
+        badgeEl.setText(`${Math.round(value * 100)}%`);
         await this.plugin.saveSettings();
       })
     );
-    containerEl.createEl("h3", { text: t(lang, "settings.quickActions.title") });
+    thresholdSetting.controlEl.prepend(badgeEl);
+    new import_obsidian3.Setting(containerEl).setHeading().setName(t(lang, "settings.section.actions"));
     new import_obsidian3.Setting(containerEl).setName(t(lang, "settings.batch.name")).setDesc(t(lang, "settings.batch.desc")).addButton(
       (btn) => btn.setButtonText(t(lang, "settings.batch.button")).setCta().onClick(() => {
         new BatchTagModal(this.app, this.plugin).open();
@@ -517,21 +539,67 @@ var JevTaggerSettingTab = class extends import_obsidian3.PluginSettingTab {
         this.display();
       })
     );
-    containerEl.createEl("h3", { text: t(lang, "settings.tagLibrary.title") });
-    containerEl.createEl("p", {
-      text: t(lang, "settings.tagLibrary.desc"),
-      cls: "setting-item-description"
-    });
-    const tagGrid = containerEl.createDiv({ cls: "jev-tag-library-grid" });
-    this.plugin.settings.tags.forEach((tag, index) => {
-      const tagContainer = tagGrid.createDiv({ cls: "jev-setting-tag-box" });
-      new import_obsidian3.Setting(tagContainer).setName(t(lang, "settings.tagLibrary.tagName", { name: tag.name })).addToggle(
-        (toggle) => toggle.setValue(tag.enabled).onChange(async (val) => {
-          this.plugin.settings.tags[index].enabled = val;
-          await this.plugin.saveSettings();
-        })
-      );
-    });
+    new import_obsidian3.Setting(containerEl).setHeading().setName(t(lang, "settings.section.tags")).setDesc(t(lang, "settings.tagLibrary.desc"));
+    const tags = this.plugin.settings.tags;
+    const totalTags = tags.length;
+    if (totalTags > 0) {
+      const enabledCount = tags.filter((tag) => tag.enabled).length;
+      const toolbar = containerEl.createDiv({ cls: "jev-tag-toolbar" });
+      const statsEl = toolbar.createDiv({
+        cls: "jev-tag-stats",
+        text: t(lang, "settings.tagLibrary.stats", { total: totalTags, enabled: enabledCount })
+      });
+      const toolbarButtons = toolbar.createDiv({ cls: "jev-tag-toolbar-buttons" });
+      const enableAllBtn = toolbarButtons.createEl("button", {
+        cls: "jev-tag-action-btn",
+        text: t(lang, "settings.tagLibrary.enableAll")
+      });
+      enableAllBtn.onclick = async () => {
+        tags.forEach((tag) => tag.enabled = true);
+        await this.plugin.saveSettings();
+        this.display();
+      };
+      const disableAllBtn = toolbarButtons.createEl("button", {
+        cls: "jev-tag-action-btn",
+        text: t(lang, "settings.tagLibrary.disableAll")
+      });
+      disableAllBtn.onclick = async () => {
+        tags.forEach((tag) => tag.enabled = false);
+        await this.plugin.saveSettings();
+        this.display();
+      };
+      const tagGrid = containerEl.createDiv({ cls: "jev-tag-library-grid" });
+      tags.forEach((tag, index) => {
+        const tagCard = tagGrid.createDiv({
+          cls: `jev-tag-card ${tag.enabled ? "is-enabled" : "is-disabled"}`
+        });
+        const chip = tagCard.createDiv({ cls: "jev-tag-card-chip" });
+        chip.createSpan({ cls: "jev-tag-hash", text: "#" });
+        const nameEl = chip.createSpan({ cls: "jev-tag-name", text: tag.name });
+        if (tag.instructions) {
+          nameEl.title = tag.instructions;
+        }
+        const toggleContainer = tagCard.createDiv({ cls: "jev-tag-card-toggle" });
+        new import_obsidian3.Setting(toggleContainer).addToggle((toggle) => {
+          toggle.setValue(tag.enabled).onChange(async (val) => {
+            tags[index].enabled = val;
+            tagCard.toggleClass("is-enabled", val);
+            tagCard.toggleClass("is-disabled", !val);
+            await this.plugin.saveSettings();
+            const updatedEnabled = tags.filter((item) => item.enabled).length;
+            statsEl.setText(
+              t(lang, "settings.tagLibrary.stats", { total: totalTags, enabled: updatedEnabled })
+            );
+          });
+        });
+      });
+    } else {
+      const emptyEl = containerEl.createDiv({ cls: "jev-tag-empty-state" });
+      emptyEl.createEl("div", {
+        cls: "jev-tag-empty-text",
+        text: t(lang, "settings.tagLibrary.empty")
+      });
+    }
   }
 };
 

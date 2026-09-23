@@ -15,21 +15,171 @@
   color: var(--text-muted);
 }
 
+/* Settings Page Styling */
+.jev-settings-container {
+  padding-bottom: 24px;
+}
+
+.jev-settings-header {
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.jev-settings-header h2 {
+  margin-bottom: 6px;
+  font-size: 1.4em;
+}
+
+.jev-settings-apikey-input {
+  min-width: 250px;
+  max-width: 300px;
+  font-family: var(--font-monospace);
+  letter-spacing: 0.5px;
+}
+
+.jev-threshold-badge {
+  font-size: 0.82em;
+  font-weight: 700;
+  color: var(--text-accent);
+  background-color: var(--background-secondary);
+  border: 1px solid var(--background-modifier-border);
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-right: 10px;
+  min-width: 44px;
+  text-align: center;
+  display: inline-block;
+}
+
+/* Tag Library Toolbar */
+.jev-tag-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 12px 0 10px 0;
+  padding: 8px 12px;
+  background-color: var(--background-secondary);
+  border-radius: 6px;
+  border: 1px solid var(--background-modifier-border);
+}
+
+.jev-tag-stats {
+  font-size: 0.85em;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.jev-tag-toolbar-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.jev-tag-action-btn {
+  font-size: 0.8em;
+  padding: 3px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: var(--interactive-normal);
+  color: var(--text-normal);
+  border: 1px solid var(--background-modifier-border);
+  transition: all 0.15s ease;
+}
+
+.jev-tag-action-btn:hover {
+  background-color: var(--interactive-hover);
+}
+
+/* Tag Library Grid & Cards */
 .jev-tag-library-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 8px;
+  margin-top: 8px;
 }
 
-.jev-tag-library-grid .jev-setting-tag-box {
-  min-width: 0;
+.jev-tag-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 12px;
+  background-color: var(--background-secondary);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 6px;
+  transition: all 0.15s ease-in-out;
+  min-height: 40px;
 }
 
-@media (max-width: 600px) {
-  .jev-tag-library-grid {
-    grid-template-columns: 1fr;
-  }
+.jev-tag-card:hover {
+  background-color: var(--background-secondary-alt);
+  border-color: var(--interactive-accent);
 }
+
+.jev-tag-card.is-disabled {
+  opacity: 0.55;
+  background-color: var(--background-primary-alt);
+}
+
+.jev-tag-card-chip {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  margin-right: 8px;
+}
+
+.jev-tag-hash {
+  color: var(--text-accent);
+  font-weight: 700;
+  font-size: 1.05em;
+  line-height: 1;
+}
+
+.jev-tag-name {
+  font-weight: 500;
+  font-size: 0.9em;
+  color: var(--text-normal);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.jev-tag-card-toggle .setting-item {
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.jev-tag-card-toggle .setting-item-info {
+  display: none !important;
+}
+
+.jev-tag-card-toggle .setting-item-control {
+  margin: 0 !important;
+}
+
+/* Tag Empty State */
+.jev-tag-empty-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  margin-top: 10px;
+  background-color: var(--background-secondary);
+  border: 1px dashed var(--background-modifier-border);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.jev-tag-empty-text {
+  font-size: 0.88em;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
 
 .jev-tag-list {
   display: flex;
