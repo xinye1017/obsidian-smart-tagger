@@ -5,6 +5,33 @@ import { TagSuggestModal } from "./tagSuggestModal";
 import { BatchTagModal } from "./batchTagModal";
 import { t, TranslationKey } from "./i18n";
 
+const LEGACY_DEFAULT_TAG_RULES = [
+	{
+		name: "异常检测",
+		instructions: "Is this note primarily about image anomaly detection or anomaly segmentation?",
+		matchCriteria: "Computer vision anomaly detection, defect localization, and benchmark experiments.",
+		otherCriteria: "General database schemas, web engineering, reading lists, or thesis checklists.",
+	},
+	{
+		name: "社交媒体",
+		instructions: "Is this note primarily about social media, creator accounts, or tweets?",
+		matchCriteria: "Social platforms, creator profiles, tweet drafts, or audience growth.",
+		otherCriteria: "Machine learning research, backend coding, or internal project planning.",
+	},
+	{
+		name: "资讯",
+		instructions: "Does this note primarily record recent news, announcements, or industry developments?",
+		matchCriteria: "The note reports or aggregates external news, model releases, company updates, or daily roundups.",
+		otherCriteria: "An evergreen tutorial, research explanation, personal plan, or general design document.",
+	},
+	{
+		name: "AI",
+		instructions: "Is this note primarily about artificial intelligence models, AI agents, or AI tools?",
+		matchCriteria: "Artificial intelligence models, AI agents, LLM prompting, or AI tools.",
+		otherCriteria: "General software development, database administration, UI styling, or personal notes.",
+	},
+];
+
 export default class JevTaggerPlugin extends Plugin {
 	settings: JevTaggerSettings;
 	jevClient: JevClient;
@@ -103,7 +130,26 @@ export default class JevTaggerPlugin extends Plugin {
 	}
 
 	async loadSettings() {
-		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+		const savedData = await this.loadData();
+		this.settings = Object.assign({}, DEFAULT_SETTINGS, savedData);
+
+		// Remove unchanged built-in rules from older versions while preserving custom rules.
+		if (Array.isArray(savedData?.tags)) {
+			const filteredTags = this.settings.tags.filter(
+				(tag) =>
+					!LEGACY_DEFAULT_TAG_RULES.some(
+						(rule) =>
+							tag.name === rule.name &&
+							tag.instructions === rule.instructions &&
+							tag.matchCriteria === rule.matchCriteria &&
+							tag.otherCriteria === rule.otherCriteria
+					)
+			);
+			if (filteredTags.length !== this.settings.tags.length) {
+				this.settings.tags = filteredTags;
+				await this.saveData(this.settings);
+			}
+		}
 	}
 
 	async saveSettings() {

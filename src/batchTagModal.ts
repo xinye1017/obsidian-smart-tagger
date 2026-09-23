@@ -1,4 +1,4 @@
-import { App, Modal, Notice, TFile } from "obsidian";
+import { App, Modal, Notice, Setting, TFile, TFolder } from "obsidian";
 import type JevTaggerPlugin from "./main";
 import { t, TranslationKey } from "./i18n";
 
@@ -6,6 +6,7 @@ export class BatchTagModal extends Modal {
 	private plugin: JevTaggerPlugin;
 	private isRunning: boolean = false;
 	private isCancelled: boolean = false;
+	private selectedFolderPath = "";
 
 	// Metrics
 	private totalFiles: number = 0;
@@ -22,6 +23,7 @@ export class BatchTagModal extends Modal {
 	private logContainerEl: HTMLElement;
 	private startBtn: HTMLButtonElement;
 	private cancelBtn: HTMLButtonElement;
+	private scopeSelectEl: HTMLSelectElement;
 
 	constructor(app: App, plugin: JevTaggerPlugin) {
 		super(app);
@@ -45,6 +47,26 @@ export class BatchTagModal extends Modal {
 			cls: "jev-tagger-subtitle",
 			text: this.tr("batch.subtitle", { threshold: thresholdPct }),
 		});
+
+		const folderPaths = this.app.vault
+			.getAllLoadedFiles()
+			.filter((file) => file instanceof TFolder && file.path.length > 0)
+			.map((folder) => folder.path)
+			.sort((a, b) => a.localeCompare(b));
+		if (this.selectedFolderPath && !folderPaths.includes(this.selectedFolderPath)) {
+			this.selectedFolderPath = "";
+		}
+		new Setting(contentEl)
+			.setName(this.tr("batch.scopeLabel"))
+			.setDesc(this.tr("batch.scopeDesc"))
+			.addDropdown((dropdown) => {
+				dropdown.addOption("", this.tr("batch.scopeAll"));
+				folderPaths.forEach((path) => dropdown.addOption(path, path));
+				dropdown.setValue(this.selectedFolderPath).onChange((path) => {
+					this.selectedFolderPath = path;
+				});
+				this.scopeSelectEl = dropdown.selectEl;
+			});
 
 		// Stat Cards
 		const statsContainer = contentEl.createDiv({ cls: "jev-batch-stats" });
@@ -109,9 +131,11 @@ export class BatchTagModal extends Modal {
 
 	private async startBatchProcess() {
 		if (this.isRunning) return;
+		const selectedFolderPath = this.selectedFolderPath;
 
 		const files = this.app.vault.getMarkdownFiles().filter((f) => {
 			const p = f.path;
+			if (selectedFolderPath && !p.startsWith(`${selectedFolderPath}/`)) return false;
 			// Filter hidden or system templates
 			if (p.startsWith(".") || p.includes("/.") || p.includes("\\.")) return false;
 			if (p.toLowerCase().includes("templates") || p.toLowerCase().includes("模板")) return false;
@@ -126,9 +150,16 @@ export class BatchTagModal extends Modal {
 		this.isCancelled = false;
 
 		this.startBtn.disabled = true;
+		this.scopeSelectEl.disabled = true;
 		this.cancelBtn.setText(this.tr("batch.stopButton"));
 
-		this.addLog(this.tr("batch.logStart", { total: this.totalFiles }), "jev-log-skip");
+		this.addLog(
+			this.tr("batch.logStart", {
+				scope: selectedFolderPath || this.tr("batch.scopeAll"),
+				total: this.totalFiles,
+			}),
+			"jev-log-skip"
+		);
 
 		for (let idx = 0; idx < files.length; idx++) {
 			if (this.isCancelled) {
@@ -196,6 +227,7 @@ export class BatchTagModal extends Modal {
 		this.cancelBtn.disabled = false;
 		this.startBtn.setText(this.tr("batch.rescanButton"));
 		this.startBtn.disabled = false;
+		this.scopeSelectEl.disabled = false;
 
 		new Notice(
 			this.tr("notice.batchComplete", {

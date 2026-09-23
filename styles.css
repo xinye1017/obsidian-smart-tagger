@@ -15,6 +15,22 @@
   color: var(--text-muted);
 }
 
+.jev-tag-library-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 20px;
+}
+
+.jev-tag-library-grid .jev-setting-tag-box {
+  min-width: 0;
+}
+
+@media (max-width: 600px) {
+  .jev-tag-library-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .jev-tag-list {
   display: flex;
   flex-direction: column;
@@ -200,4 +216,3 @@
 .jev-log-skip {
   color: var(--text-muted);
 }
-

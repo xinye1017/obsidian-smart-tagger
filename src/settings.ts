@@ -13,44 +13,13 @@ export interface JevTaggerSettings {
 	tags: TagDefinition[];
 }
 
-export const DEFAULT_TAG_DEFINITIONS: TagDefinition[] = [
-	{
-		name: "异常检测",
-		instructions: "Is this note primarily about image anomaly detection or anomaly segmentation?",
-		matchCriteria: "Computer vision anomaly detection, defect localization, and benchmark experiments.",
-		otherCriteria: "General database schemas, web engineering, reading lists, or thesis checklists.",
-		enabled: true,
-	},
-	{
-		name: "社交媒体",
-		instructions: "Is this note primarily about social media, creator accounts, or tweets?",
-		matchCriteria: "Social platforms, creator profiles, tweet drafts, or audience growth.",
-		otherCriteria: "Machine learning research, backend coding, or internal project planning.",
-		enabled: true,
-	},
-	{
-		name: "资讯",
-		instructions: "Does this note primarily record recent news, announcements, or industry developments?",
-		matchCriteria: "The note reports or aggregates external news, model releases, company updates, or daily roundups.",
-		otherCriteria: "An evergreen tutorial, research explanation, personal plan, or general design document.",
-		enabled: true,
-	},
-	{
-		name: "AI",
-		instructions: "Is this note primarily about artificial intelligence models, AI agents, or AI tools?",
-		matchCriteria: "Artificial intelligence models, AI agents, LLM prompting, or AI tools.",
-		otherCriteria: "General software development, database administration, UI styling, or personal notes.",
-		enabled: true,
-	},
-];
-
 export const DEFAULT_SETTINGS: JevTaggerSettings = {
 	apiKey: "",
 	endpoint: "https://api.typesafe.ai/v1/systemone",
 	language: "zh",
 	confidenceThreshold: 0.70,
 	autoAddParentAiTag: true,
-	tags: DEFAULT_TAG_DEFINITIONS,
+	tags: [],
 };
 
 export class JevTaggerSettingTab extends PluginSettingTab {
@@ -169,12 +138,12 @@ export class JevTaggerSettingTab extends PluginSettingTab {
 			cls: "setting-item-description",
 		});
 
+		const tagGrid = containerEl.createDiv({ cls: "jev-tag-library-grid" });
 		this.plugin.settings.tags.forEach((tag, index) => {
-			const tagContainer = containerEl.createDiv({ cls: "jev-setting-tag-box" });
+			const tagContainer = tagGrid.createDiv({ cls: "jev-setting-tag-box" });
 
 			new Setting(tagContainer)
 				.setName(t(lang, "settings.tagLibrary.tagName", { name: tag.name }))
-				.setDesc(tag.instructions)
 				.addToggle((toggle) =>
 					toggle.setValue(tag.enabled).onChange(async (val) => {
 						this.plugin.settings.tags[index].enabled = val;
@@ -182,16 +151,5 @@ export class JevTaggerSettingTab extends PluginSettingTab {
 					})
 				);
 		});
-
-		new Setting(containerEl)
-			.setName(t(lang, "settings.reset.name"))
-			.setDesc(t(lang, "settings.reset.desc"))
-			.addButton((btn) =>
-				btn.setButtonText(t(lang, "settings.reset.button")).onClick(async () => {
-					this.plugin.settings.tags = JSON.parse(JSON.stringify(DEFAULT_TAG_DEFINITIONS));
-					await this.plugin.saveSettings();
-					this.display();
-				})
-			);
 	}
 }

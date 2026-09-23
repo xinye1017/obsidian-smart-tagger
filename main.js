@@ -127,11 +127,11 @@ var translations = {
     "notice.applyAllSuccess": "\u5DF2\u6210\u529F\u6DFB\u52A0 {count} \u4E2A\u6807\u7B7E\u5230 Frontmatter\uFF01",
     "notice.noVaultTags": "\u672A\u5728\u77E5\u8BC6\u5E93\u4E2D\u68C0\u6D4B\u5230\u5DF2\u6709\u6807\u7B7E\u3002",
     "notice.vaultTagsSynced": "\u{1F3F7}\uFE0F \u6807\u7B7E\u5E93\u68C0\u6D4B\u5B8C\u6210\uFF01\u5171\u626B\u63CF\u5230 {total} \u4E2A\u5DF2\u6709\u6807\u7B7E\uFF0C\u81EA\u52A8\u65B0\u53D1\u73B0\u5E76\u540C\u6B65 {added} \u4E2A\u65B0\u6807\u7B7E\u81F3\u89C4\u5219\u5E93\uFF01",
-    "notice.batchComplete": "\u5168\u5E93\u6253\u6807\u5B8C\u6210\uFF01\u626B\u63CF {scanned} \u7BC7\u7B14\u8BB0\uFF0C\u4E3A {modified} \u7BC7\u7B14\u8BB0\u8FFD\u52A0\u4E86 {added} \u4E2A\u65B0\u6807\u7B7E\u3002",
+    "notice.batchComplete": "\u6279\u91CF\u6253\u6807\u5B8C\u6210\uFF01\u626B\u63CF {scanned} \u7BC7\u7B14\u8BB0\uFF0C\u4E3A {modified} \u7BC7\u7B14\u8BB0\u8FFD\u52A0\u4E86 {added} \u4E2A\u65B0\u6807\u7B7E\u3002",
     "notice.predictFailed": "Smart Tagger \u9884\u6D4B\u51FA\u9519: {error}",
     "command.suggestTags": "\u4E3A\u5F53\u524D\u6D3B\u52A8\u7B14\u8BB0\u63A8\u8350\u6807\u7B7E (Suggest Tags for Active Note)",
     "command.autoApply": "\u4E00\u952E\u81EA\u52A8\u5E94\u7528\u9AD8\u7F6E\u4FE1\u6807\u7B7E\u5230\u5F53\u524D\u7B14\u8BB0 (Auto-apply Tags to Active Note)",
-    "command.batchTagAll": "\u4E00\u952E\u4E3A\u6240\u6709\u7B14\u8BB0\u626B\u63CF\u5E76\u6DFB\u52A0\u9AD8\u7F6E\u4FE1\u6807\u7B7E (Batch Tag All Notes in Vault)",
+    "command.batchTagAll": "\u6279\u91CF\u626B\u63CF\u7B14\u8BB0\u5E76\u6DFB\u52A0\u9AD8\u7F6E\u4FE1\u6807\u7B7E (Batch Tag Notes)",
     "command.syncVaultTags": "\u81EA\u52A8\u68C0\u6D4B\u5E76\u540C\u6B65\u77E5\u8BC6\u5E93\u6807\u7B7E\u5E93 (Detect and Sync Vault Tags)",
     "menu.suggestTags": "Smart Tagger: \u667A\u80FD\u6807\u7B7E\u63A8\u8350",
     "settings.title": "Smart Tagger \u8BBE\u7F6E",
@@ -146,18 +146,15 @@ var translations = {
     "settings.parentTag.name": "\u81EA\u52A8\u7EE7\u627F\u7236\u6807\u7B7E #AI",
     "settings.parentTag.desc": "\u5F53\u547D\u4E2D\u3010\u5F02\u5E38\u68C0\u6D4B\u3011\u7B49\u5177\u4F53 AI \u5B50\u9886\u57DF\u6807\u7B7E\u65F6\uFF0C\u81EA\u52A8\u5728 Frontmatter \u8FFD\u52A0\u7236\u6807\u7B7E #AI\u3002",
     "settings.quickActions.title": "\u26A1 \u5FEB\u6377\u64CD\u4F5C\u4E0E\u5168\u5E93\u7EF4\u62A4",
-    "settings.batch.name": "\u5168\u5E93\u7B14\u8BB0\u6279\u91CF\u626B\u63CF\u4E0E\u6253\u6807",
-    "settings.batch.desc": "\u6253\u5F00\u5168\u5E93\u6279\u91CF\u6253\u6807\u9762\u677F\uFF0C\u81EA\u52A8\u626B\u63CF\u6574\u4E2A\u77E5\u8BC6\u5E93\u5E76\u4E3A\u6240\u6709\u7B14\u8BB0\u6DFB\u52A0\u9AD8\u7F6E\u4FE1\u672A\u6DFB\u52A0\u6807\u7B7E\u3002",
+    "settings.batch.name": "\u6279\u91CF\u626B\u63CF\u4E0E\u6253\u6807",
+    "settings.batch.desc": "\u9009\u62E9\u626B\u63CF\u6574\u4E2A\u77E5\u8BC6\u5E93\u6216\u6307\u5B9A\u6587\u4EF6\u5939\uFF0C\u4E3A\u5176\u4E2D\u7684 Markdown \u7B14\u8BB0\u6DFB\u52A0\u9AD8\u7F6E\u4FE1\u4E14\u5C1A\u672A\u5B58\u5728\u7684\u6807\u7B7E\u3002",
     "settings.batch.button": "\u{1F680} \u6253\u5F00\u6279\u91CF\u6253\u6807\u9762\u677F",
     "settings.sync.name": "\u81EA\u52A8\u68C0\u6D4B\u5E76\u540C\u6B65\u77E5\u8BC6\u5E93\u6807\u7B7E\u5E93",
     "settings.sync.desc": "\u81EA\u52A8\u626B\u63CF\u77E5\u8BC6\u5E93\u5F53\u524D\u5DF2\u5B58\u5728\u7684\u6240\u6709\u5386\u53F2\u6807\u7B7E\uFF0C\u5E76\u5C06\u65B0\u53D1\u73B0\u7684\u6807\u7B7E\u81EA\u52A8\u8865\u5145\u5230\u4E0B\u65B9\u7684\u89C4\u5219\u5E93\u4E2D\u3002",
     "settings.sync.button": "\u{1F50D} \u626B\u63CF\u77E5\u8BC6\u5E93\u6807\u7B7E",
     "settings.tagLibrary.title": "\u6807\u7B7E\u89C4\u5219\u5E93 (Tag Criteria Library)",
-    "settings.tagLibrary.desc": "\u5F53\u524D\u5DF2\u914D\u7F6E\u7684\u76EE\u6807\u6807\u7B7E\u3002\u53EF\u5728\u53F3\u4FA7\u968F\u65F6\u542F\u7528\u6216\u5173\u95ED\u7279\u5B9A\u6807\u7B7E\u7684\u81EA\u52A8\u8BC4\u4F30\u3002",
-    "settings.tagLibrary.tagName": "\u6807\u7B7E #{name}",
-    "settings.reset.name": "\u6062\u590D\u9ED8\u8BA4\u9A8C\u8BC1\u89C4\u5219\u5E93",
-    "settings.reset.desc": "\u5C06\u6240\u6709\u6807\u7B7E\u5224\u5B9A\u89C4\u5219\u6062\u590D\u4E3A\u9996\u53D1\u9A8C\u8BC1\u901A\u8FC7\u7684 4 \u5927\u57FA\u51C6\u5B9A\u4E49\uFF08\u5F02\u5E38\u68C0\u6D4B\u3001\u793E\u4EA4\u5A92\u4F53\u3001\u8D44\u8BAF\u3001AI\uFF09\u3002",
-    "settings.reset.button": "\u6062\u590D\u9ED8\u8BA4\u89C4\u5219",
+    "settings.tagLibrary.desc": "\u6807\u7B7E\u5E93\u521D\u59CB\u4E3A\u7A7A\u3002\u70B9\u51FB\u4E0A\u65B9\u6309\u94AE\u8BFB\u53D6\u77E5\u8BC6\u5E93\u4E2D\u5DF2\u4F7F\u7528\u7684\u6807\u7B7E\u5E76\u751F\u6210\u89C4\u5219\uFF0C\u53EF\u968F\u65F6\u542F\u7528\u6216\u5173\u95ED\u6807\u7B7E\u3002",
+    "settings.tagLibrary.tagName": "#{name}",
     "tagSuggest.title": "\u{1F3F7}\uFE0F Smart Tagger: {name}",
     "tagSuggest.loadingSubtitle": "\u6B63\u5728\u5411 Jev System-1 \u51B3\u7B56\u6A21\u578B\u83B7\u53D6\u6BEB\u79D2\u7EA7\u6807\u7B7E\u7F6E\u4FE1\u5EA6\u5206\u6790...",
     "tagSuggest.loading": "AI \u51B3\u7B56\u5206\u6790\u4E2D...",
@@ -168,21 +165,24 @@ var translations = {
     "tagSuggest.addButton": "+ \u6DFB\u52A0",
     "tagSuggest.applyAllButton": "\u26A1 \u4E00\u952E\u5E94\u7528\u6240\u6709\u9AD8\u7F6E\u4FE1\u6807\u7B7E ({count}\u4E2A)",
     "tagSuggest.close": "\u5173\u95ED",
-    "batch.title": "\u26A1 Smart Tagger: \u5168\u5E93\u6279\u91CF\u626B\u63CF\u6253\u6807",
-    "batch.subtitle": "\u5C06\u5168\u5E93\u626B\u63CF\u7B14\u8BB0\uFF0C\u901A\u8FC7 Jev System-1 \u6A21\u578B\u9AD8\u901F\u5224\u5B9A\u3002\u82E5\u68C0\u6D4B\u5230\u7F6E\u4FE1\u5EA6 \u2265 {threshold}% \u7684\u672A\u6DFB\u52A0\u6807\u7B7E\uFF0C\u5C06\u81EA\u52A8\u5B89\u5168\u5199\u5165 Frontmatter\u3002",
+    "batch.title": "\u26A1 Smart Tagger: \u6279\u91CF\u626B\u63CF\u4E0E\u6253\u6807",
+    "batch.subtitle": "\u626B\u63CF\u6240\u9009\u6587\u4EF6\u5939\u6216\u6574\u4E2A\u77E5\u8BC6\u5E93\uFF0C\u5E76\u7531 Jev \u6A21\u578B\u8BC4\u4F30\u7B14\u8BB0\u3002\u8FBE\u5230 {threshold}% \u7F6E\u4FE1\u5EA6\u4E14\u5C1A\u672A\u5B58\u5728\u7684\u6807\u7B7E\u4F1A\u5199\u5165 Frontmatter\u3002",
+    "batch.scopeLabel": "\u626B\u63CF\u8303\u56F4",
+    "batch.scopeDesc": "\u9009\u62E9\u6587\u4EF6\u5939\u540E\uFF0C\u4E5F\u4F1A\u626B\u63CF\u5176\u4E0B\u7EA7\u6587\u4EF6\u5939\u4E2D\u7684 Markdown \u7B14\u8BB0\u3002",
+    "batch.scopeAll": "\u6574\u4E2A\u77E5\u8BC6\u5E93",
     "batch.statScanned": "\u5DF2\u626B\u63CF\u7B14\u8BB0",
     "batch.statModified": "\u547D\u4E2D\u6253\u6807\u7B14\u8BB0",
     "batch.statAdded": "\u7D2F\u8BA1\u65B0\u589E\u6807\u7B7E",
     "batch.ready": "\u51C6\u5907\u5C31\u7EEA\uFF0C\u70B9\u51FB\u4E0B\u65B9\u6309\u94AE\u5F00\u59CB\u3002",
     "batch.logHeader": "\u6267\u884C\u65E5\u5FD7:",
     "batch.startHint": "\u70B9\u51FB [\u5F00\u59CB\u6279\u91CF\u6253\u6807] \u5373\u523B\u542F\u52A8\u540E\u53F0\u9AD8\u901F\u8BC4\u4F30...",
-    "batch.startButton": "\u{1F680} \u5F00\u59CB\u5168\u5E93\u6279\u91CF\u6253\u6807",
+    "batch.startButton": "\u{1F680} \u5F00\u59CB\u6279\u91CF\u6253\u6807",
     "batch.close": "\u5173\u95ED",
     "batch.stopButton": "\u23F9\uFE0F \u505C\u6B62\u626B\u63CF",
     "batch.stopping": "\u6B63\u5728\u505C\u6B62...",
     "batch.finishedButton": "\u5B8C\u6210\u5173\u95ED",
     "batch.rescanButton": "\u91CD\u65B0\u626B\u63CF",
-    "batch.logStart": "\u5F00\u59CB\u5168\u5E93\u6279\u91CF\u5206\u6790\uFF0C\u76EE\u6807 Markdown \u7B14\u8BB0: {total} \u7BC7",
+    "batch.logStart": "\u5F00\u59CB\u6279\u91CF\u5206\u6790\uFF0C\u8303\u56F4\uFF1A{scope}\uFF0C\u5171 {total} \u7BC7 Markdown \u7B14\u8BB0",
     "batch.logCancelled": "\u7528\u6237\u4E3B\u52A8\u4E2D\u6B62\u4E86\u6279\u91CF\u6253\u6807\u3002",
     "batch.logCurrentFile": "\u6B63\u5728\u5206\u6790 ({index}/{total}): {path}",
     "batch.logAddedTags": "\u2705 [{name}] \u65B0\u589E\u6807\u7B7E: {tags}",
@@ -201,11 +201,11 @@ var translations = {
     "notice.applyAllSuccess": "Successfully added {count} tags to the frontmatter!",
     "notice.noVaultTags": "No existing tags were detected in this vault.",
     "notice.vaultTagsSynced": "\u{1F3F7}\uFE0F Tag library sync complete! Scanned {total} existing tags and discovered {added} new tags added to the rule library!",
-    "notice.batchComplete": "Vault batch tagging complete! Scanned {scanned} notes and appended {added} new tags across {modified} notes.",
+    "notice.batchComplete": "Batch tagging complete! Scanned {scanned} notes and appended {added} new tags across {modified} notes.",
     "notice.predictFailed": "Smart Tagger prediction failed: {error}",
     "command.suggestTags": "Suggest tags for the active note",
     "command.autoApply": "Auto-apply tags to the active note",
-    "command.batchTagAll": "Batch tag all notes in vault",
+    "command.batchTagAll": "Batch scan notes and add high-confidence tags",
     "command.syncVaultTags": "Detect and sync vault tags",
     "menu.suggestTags": "Smart Tagger: Suggest Tags",
     "settings.title": "Smart Tagger Settings",
@@ -220,18 +220,15 @@ var translations = {
     "settings.parentTag.name": "Auto-inherit parent tag #AI",
     "settings.parentTag.desc": "When a specific AI sub-domain tag is matched, automatically append the parent tag #AI to the frontmatter.",
     "settings.quickActions.title": "\u26A1 Quick actions & vault maintenance",
-    "settings.batch.name": "Batch scan and tag the whole vault",
-    "settings.batch.desc": "Open the vault batch tagging panel to scan your entire vault and add high-confidence tags that are not already present.",
+    "settings.batch.name": "Batch scan and tag notes",
+    "settings.batch.desc": "Choose the whole vault or a folder, then add high-confidence tags that are not already present in its Markdown notes.",
     "settings.batch.button": "\u{1F680} Open batch tagging panel",
     "settings.sync.name": "Detect and sync vault tag library",
     "settings.sync.desc": "Scan every tag already used in your vault and automatically add newly discovered tags to the rule library below.",
     "settings.sync.button": "\u{1F50D} Scan vault tags",
     "settings.tagLibrary.title": "Tag criteria library",
-    "settings.tagLibrary.desc": "Currently configured target tags. Toggle automatic evaluation for each tag on the right.",
-    "settings.tagLibrary.tagName": "Tag #{name}",
-    "settings.reset.name": "Restore default rule library",
-    "settings.reset.desc": "Reset all tag criteria to the four benchmark definitions validated at launch.",
-    "settings.reset.button": "Restore defaults",
+    "settings.tagLibrary.desc": "The tag library starts empty. Use the button above to read tags already used in your vault and create rules, then enable or disable them as needed.",
+    "settings.tagLibrary.tagName": "#{name}",
     "tagSuggest.title": "\u{1F3F7}\uFE0F Smart Tagger: {name}",
     "tagSuggest.loadingSubtitle": "Requesting millisecond tag confidence analysis from the Jev System-1 decision model...",
     "tagSuggest.loading": "Running AI decision analysis...",
@@ -242,21 +239,24 @@ var translations = {
     "tagSuggest.addButton": "+ Add",
     "tagSuggest.applyAllButton": "\u26A1 Apply all high-confidence tags ({count})",
     "tagSuggest.close": "Close",
-    "batch.title": "\u26A1 Smart Tagger: Vault batch scan & tag",
-    "batch.subtitle": "Scan the whole vault and let the Jev System-1 model evaluate it at high speed. Any tag at or above the {threshold}% confidence threshold that is not already present will be safely written to the frontmatter.",
+    "batch.title": "\u26A1 Smart Tagger: Batch scan & tag",
+    "batch.subtitle": "Scan the selected folder or the whole vault with the Jev model. Tags at or above the {threshold}% confidence threshold that are not already present will be added to the frontmatter.",
+    "batch.scopeLabel": "Scan scope",
+    "batch.scopeDesc": "Selecting a folder also includes Markdown notes in its subfolders.",
+    "batch.scopeAll": "Entire vault",
     "batch.statScanned": "Notes scanned",
     "batch.statModified": "Notes tagged",
     "batch.statAdded": "Tags added",
     "batch.ready": "Ready. Click the button below to start.",
     "batch.logHeader": "Log:",
     "batch.startHint": "Click [Start batch tagging] to begin high-speed evaluation in the background...",
-    "batch.startButton": "\u{1F680} Start vault batch tagging",
+    "batch.startButton": "\u{1F680} Start batch tagging",
     "batch.close": "Close",
     "batch.stopButton": "\u23F9\uFE0F Stop scan",
     "batch.stopping": "Stopping...",
     "batch.finishedButton": "Done",
     "batch.rescanButton": "Rescan",
-    "batch.logStart": "Starting vault-wide batch analysis over {total} markdown notes",
+    "batch.logStart": "Starting batch analysis in {scope} over {total} Markdown notes",
     "batch.logCancelled": "Batch tagging was cancelled by the user.",
     "batch.logCurrentFile": "Analyzing ({index}/{total}): {path}",
     "batch.logAddedTags": "\u2705 [{name}] added tags: {tags}",
@@ -279,6 +279,7 @@ var BatchTagModal = class extends import_obsidian2.Modal {
     super(app);
     this.isRunning = false;
     this.isCancelled = false;
+    this.selectedFolderPath = "";
     // Metrics
     this.totalFiles = 0;
     this.processedCount = 0;
@@ -299,6 +300,18 @@ var BatchTagModal = class extends import_obsidian2.Modal {
     header.createEl("div", {
       cls: "jev-tagger-subtitle",
       text: this.tr("batch.subtitle", { threshold: thresholdPct })
+    });
+    const folderPaths = this.app.vault.getAllLoadedFiles().filter((file) => file instanceof import_obsidian2.TFolder && file.path.length > 0).map((folder) => folder.path).sort((a, b) => a.localeCompare(b));
+    if (this.selectedFolderPath && !folderPaths.includes(this.selectedFolderPath)) {
+      this.selectedFolderPath = "";
+    }
+    new import_obsidian2.Setting(contentEl).setName(this.tr("batch.scopeLabel")).setDesc(this.tr("batch.scopeDesc")).addDropdown((dropdown) => {
+      dropdown.addOption("", this.tr("batch.scopeAll"));
+      folderPaths.forEach((path) => dropdown.addOption(path, path));
+      dropdown.setValue(this.selectedFolderPath).onChange((path) => {
+        this.selectedFolderPath = path;
+      });
+      this.scopeSelectEl = dropdown.selectEl;
     });
     const statsContainer = contentEl.createDiv({ cls: "jev-batch-stats" });
     const stat1 = statsContainer.createDiv({ cls: "jev-stat-card" });
@@ -347,8 +360,10 @@ var BatchTagModal = class extends import_obsidian2.Modal {
   }
   async startBatchProcess() {
     if (this.isRunning) return;
+    const selectedFolderPath = this.selectedFolderPath;
     const files = this.app.vault.getMarkdownFiles().filter((f) => {
       const p = f.path;
+      if (selectedFolderPath && !p.startsWith(`${selectedFolderPath}/`)) return false;
       if (p.startsWith(".") || p.includes("/.") || p.includes("\\.")) return false;
       if (p.toLowerCase().includes("templates") || p.toLowerCase().includes("\u6A21\u677F")) return false;
       return true;
@@ -360,8 +375,15 @@ var BatchTagModal = class extends import_obsidian2.Modal {
     this.isRunning = true;
     this.isCancelled = false;
     this.startBtn.disabled = true;
+    this.scopeSelectEl.disabled = true;
     this.cancelBtn.setText(this.tr("batch.stopButton"));
-    this.addLog(this.tr("batch.logStart", { total: this.totalFiles }), "jev-log-skip");
+    this.addLog(
+      this.tr("batch.logStart", {
+        scope: selectedFolderPath || this.tr("batch.scopeAll"),
+        total: this.totalFiles
+      }),
+      "jev-log-skip"
+    );
     for (let idx = 0; idx < files.length; idx++) {
       if (this.isCancelled) {
         this.addLog(this.tr("batch.logCancelled"), "jev-log-skip");
@@ -416,6 +438,7 @@ var BatchTagModal = class extends import_obsidian2.Modal {
     this.cancelBtn.disabled = false;
     this.startBtn.setText(this.tr("batch.rescanButton"));
     this.startBtn.disabled = false;
+    this.scopeSelectEl.disabled = false;
     new import_obsidian2.Notice(
       this.tr("notice.batchComplete", {
         scanned: this.processedCount,
@@ -432,43 +455,13 @@ var BatchTagModal = class extends import_obsidian2.Modal {
 };
 
 // src/settings.ts
-var DEFAULT_TAG_DEFINITIONS = [
-  {
-    name: "\u5F02\u5E38\u68C0\u6D4B",
-    instructions: "Is this note primarily about image anomaly detection or anomaly segmentation?",
-    matchCriteria: "Computer vision anomaly detection, defect localization, and benchmark experiments.",
-    otherCriteria: "General database schemas, web engineering, reading lists, or thesis checklists.",
-    enabled: true
-  },
-  {
-    name: "\u793E\u4EA4\u5A92\u4F53",
-    instructions: "Is this note primarily about social media, creator accounts, or tweets?",
-    matchCriteria: "Social platforms, creator profiles, tweet drafts, or audience growth.",
-    otherCriteria: "Machine learning research, backend coding, or internal project planning.",
-    enabled: true
-  },
-  {
-    name: "\u8D44\u8BAF",
-    instructions: "Does this note primarily record recent news, announcements, or industry developments?",
-    matchCriteria: "The note reports or aggregates external news, model releases, company updates, or daily roundups.",
-    otherCriteria: "An evergreen tutorial, research explanation, personal plan, or general design document.",
-    enabled: true
-  },
-  {
-    name: "AI",
-    instructions: "Is this note primarily about artificial intelligence models, AI agents, or AI tools?",
-    matchCriteria: "Artificial intelligence models, AI agents, LLM prompting, or AI tools.",
-    otherCriteria: "General software development, database administration, UI styling, or personal notes.",
-    enabled: true
-  }
-];
 var DEFAULT_SETTINGS = {
   apiKey: "",
   endpoint: "https://api.typesafe.ai/v1/systemone",
   language: "zh",
   confidenceThreshold: 0.7,
   autoAddParentAiTag: true,
-  tags: DEFAULT_TAG_DEFINITIONS
+  tags: []
 };
 var JevTaggerSettingTab = class extends import_obsidian3.PluginSettingTab {
   constructor(app, plugin) {
@@ -540,22 +533,16 @@ var JevTaggerSettingTab = class extends import_obsidian3.PluginSettingTab {
       text: t(lang, "settings.tagLibrary.desc"),
       cls: "setting-item-description"
     });
+    const tagGrid = containerEl.createDiv({ cls: "jev-tag-library-grid" });
     this.plugin.settings.tags.forEach((tag, index) => {
-      const tagContainer = containerEl.createDiv({ cls: "jev-setting-tag-box" });
-      new import_obsidian3.Setting(tagContainer).setName(t(lang, "settings.tagLibrary.tagName", { name: tag.name })).setDesc(tag.instructions).addToggle(
+      const tagContainer = tagGrid.createDiv({ cls: "jev-setting-tag-box" });
+      new import_obsidian3.Setting(tagContainer).setName(t(lang, "settings.tagLibrary.tagName", { name: tag.name })).addToggle(
         (toggle) => toggle.setValue(tag.enabled).onChange(async (val) => {
           this.plugin.settings.tags[index].enabled = val;
           await this.plugin.saveSettings();
         })
       );
     });
-    new import_obsidian3.Setting(containerEl).setName(t(lang, "settings.reset.name")).setDesc(t(lang, "settings.reset.desc")).addButton(
-      (btn) => btn.setButtonText(t(lang, "settings.reset.button")).onClick(async () => {
-        this.plugin.settings.tags = JSON.parse(JSON.stringify(DEFAULT_TAG_DEFINITIONS));
-        await this.plugin.saveSettings();
-        this.display();
-      })
-    );
   }
 };
 
@@ -691,6 +678,32 @@ var TagSuggestModal = class extends import_obsidian4.Modal {
 };
 
 // src/main.ts
+var LEGACY_DEFAULT_TAG_RULES = [
+  {
+    name: "\u5F02\u5E38\u68C0\u6D4B",
+    instructions: "Is this note primarily about image anomaly detection or anomaly segmentation?",
+    matchCriteria: "Computer vision anomaly detection, defect localization, and benchmark experiments.",
+    otherCriteria: "General database schemas, web engineering, reading lists, or thesis checklists."
+  },
+  {
+    name: "\u793E\u4EA4\u5A92\u4F53",
+    instructions: "Is this note primarily about social media, creator accounts, or tweets?",
+    matchCriteria: "Social platforms, creator profiles, tweet drafts, or audience growth.",
+    otherCriteria: "Machine learning research, backend coding, or internal project planning."
+  },
+  {
+    name: "\u8D44\u8BAF",
+    instructions: "Does this note primarily record recent news, announcements, or industry developments?",
+    matchCriteria: "The note reports or aggregates external news, model releases, company updates, or daily roundups.",
+    otherCriteria: "An evergreen tutorial, research explanation, personal plan, or general design document."
+  },
+  {
+    name: "AI",
+    instructions: "Is this note primarily about artificial intelligence models, AI agents, or AI tools?",
+    matchCriteria: "Artificial intelligence models, AI agents, LLM prompting, or AI tools.",
+    otherCriteria: "General software development, database administration, UI styling, or personal notes."
+  }
+];
 var JevTaggerPlugin = class extends import_obsidian5.Plugin {
   tr(key, params) {
     return t(this.settings.language, key, params);
@@ -766,7 +779,19 @@ var JevTaggerPlugin = class extends import_obsidian5.Plugin {
     console.log("Smart Tagger plugin unloaded.");
   }
   async loadSettings() {
-    this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+    const savedData = await this.loadData();
+    this.settings = Object.assign({}, DEFAULT_SETTINGS, savedData);
+    if (Array.isArray(savedData?.tags)) {
+      const filteredTags = this.settings.tags.filter(
+        (tag) => !LEGACY_DEFAULT_TAG_RULES.some(
+          (rule) => tag.name === rule.name && tag.instructions === rule.instructions && tag.matchCriteria === rule.matchCriteria && tag.otherCriteria === rule.otherCriteria
+        )
+      );
+      if (filteredTags.length !== this.settings.tags.length) {
+        this.settings.tags = filteredTags;
+        await this.saveData(this.settings);
+      }
+    }
   }
   async saveSettings() {
     await this.saveData(this.settings);
