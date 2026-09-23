@@ -1,0 +1,203 @@
+.jev-tagger-modal {
+  padding: 10px;
+}
+
+.jev-tagger-header {
+  margin-bottom: 16px;
+}
+
+.jev-tagger-header h3 {
+  margin-bottom: 4px;
+}
+
+.jev-tagger-subtitle {
+  font-size: 0.85em;
+  color: var(--text-muted);
+}
+
+.jev-tag-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.jev-tag-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background-color: var(--background-secondary);
+  border-radius: 8px;
+  border: 1px solid var(--background-modifier-border);
+  transition: all 0.15s ease-in-out;
+}
+
+.jev-tag-item:hover {
+  background-color: var(--background-secondary-alt);
+  border-color: var(--interactive-accent);
+}
+
+.jev-tag-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  margin-right: 14px;
+}
+
+.jev-tag-name-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.jev-tag-badge {
+  font-weight: 600;
+  color: var(--text-accent);
+  background: var(--tag-background, rgba(var(--interactive-accent-rgb), 0.12));
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.jev-tag-existing {
+  font-size: 0.8em;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.jev-tag-desc {
+  font-size: 0.8em;
+  color: var(--text-muted);
+}
+
+.jev-progress-bar-container {
+  height: 6px;
+  background-color: var(--background-primary);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.jev-progress-bar-fill {
+  height: 100%;
+  background-color: var(--interactive-accent);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.jev-confidence-score {
+  font-size: 0.85em;
+  font-weight: 700;
+  min-width: 45px;
+  text-align: right;
+  color: var(--text-normal);
+}
+
+.jev-btn-add {
+  padding: 4px 10px;
+  font-size: 0.85em;
+  border-radius: 4px;
+}
+
+.jev-actions-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  border-top: 1px solid var(--background-modifier-border);
+  padding-top: 14px;
+}
+
+.jev-loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  color: var(--text-muted);
+  gap: 12px;
+}
+
+.jev-spinner {
+  width: 24px;
+  height: 24px;
+  border: 3px solid var(--background-modifier-border);
+  border-top-color: var(--interactive-accent);
+  border-radius: 50%;
+  animation: jev-spin 0.8s linear infinite;
+}
+
+@keyframes jev-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Batch Tagging Modal Styles */
+.jev-batch-modal {
+  padding: 10px;
+}
+
+.jev-batch-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.jev-stat-card {
+  padding: 12px;
+  background-color: var(--background-secondary);
+  border-radius: 8px;
+  border: 1px solid var(--background-modifier-border);
+  text-align: center;
+}
+
+.jev-stat-num {
+  font-size: 1.6em;
+  font-weight: 700;
+  color: var(--text-accent);
+}
+
+.jev-stat-label {
+  font-size: 0.8em;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.jev-batch-current-file {
+  font-size: 0.85em;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 8px;
+}
+
+.jev-batch-log {
+  max-height: 220px;
+  overflow-y: auto;
+  border: 1px solid var(--background-modifier-border);
+  background-color: var(--background-primary-alt);
+  border-radius: 6px;
+  padding: 10px;
+  font-family: var(--font-monospace);
+  font-size: 0.82em;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 16px;
+}
+
+.jev-log-item {
+  line-height: 1.4;
+}
+
+.jev-log-success {
+  color: var(--color-green, #10b981);
+}
+
+.jev-log-skip {
+  color: var(--text-muted);
+}
+
