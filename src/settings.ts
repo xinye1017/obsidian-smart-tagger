@@ -9,7 +9,6 @@ export interface JevTaggerSettings {
 	endpoint: string;
 	language: Language;
 	confidenceThreshold: number;
-	autoAddParentAiTag: boolean; // Automatic derivation rule: add #AI if specific AI sub-tag matched
 	tags: TagDefinition[];
 }
 
@@ -18,7 +17,6 @@ export const DEFAULT_SETTINGS: JevTaggerSettings = {
 	endpoint: "https://api.typesafe.ai/v1/systemone",
 	language: "zh",
 	confidenceThreshold: 0.70,
-	autoAddParentAiTag: true,
 	tags: [],
 };
 
@@ -92,18 +90,6 @@ export class JevTaggerSettingTab extends PluginSettingTab {
 					.setDynamicTooltip()
 					.onChange(async (value) => {
 						this.plugin.settings.confidenceThreshold = value;
-						await this.plugin.saveSettings();
-					})
-			);
-
-		new Setting(containerEl)
-			.setName(t(lang, "settings.parentTag.name"))
-			.setDesc(t(lang, "settings.parentTag.desc"))
-			.addToggle((toggle) =>
-				toggle
-					.setValue(this.plugin.settings.autoAddParentAiTag)
-					.onChange(async (value) => {
-						this.plugin.settings.autoAddParentAiTag = value;
 						await this.plugin.saveSettings();
 					})
 			);

@@ -40,7 +40,6 @@ The note summary and enabled tag criteria are sent to Jev for evaluation. Config
 
 - **Jev API key:** Used to authenticate requests to the Jev API. The settings field masks the key while it is displayed.
 - **Confidence threshold:** Minimum score for automatic tag application.
-- **Auto-add parent tag:** Optionally add the parent AI tag when certain configured AI sub-tags are applied.
 - **Tag library:** Enable or disable the tag rules used during evaluation.
 
 ## Build from source

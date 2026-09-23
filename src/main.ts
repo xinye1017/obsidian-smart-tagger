@@ -267,16 +267,6 @@ export default class JevTaggerPlugin extends Plugin {
 				modified = true;
 			}
 
-			// Parent AI derivation rule
-			if (
-				this.settings.autoAddParentAiTag &&
-				(newTag === "异常检测" || newTag === "Agent" || newTag === "模型") &&
-				!currentTags.includes("AI")
-			) {
-				currentTags.push("AI");
-				modified = true;
-			}
-
 			frontmatter.tags = currentTags;
 		});
 

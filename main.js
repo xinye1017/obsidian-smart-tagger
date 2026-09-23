@@ -143,8 +143,6 @@ var translations = {
     "settings.apiKey.toggleTooltip": "\u5207\u6362\u663E\u793A/\u9690\u85CF API Key",
     "settings.threshold.name": "\u7F6E\u4FE1\u5EA6\u63A8\u8350\u9608\u503C",
     "settings.threshold.desc": "\u4EC5\u63A8\u8350\u7F6E\u4FE1\u5EA6\u5927\u4E8E\u7B49\u4E8E\u8BE5\u9608\u503C\u7684\u6807\u7B7E\uFF08\u9ED8\u8BA4 0.70\uFF0C\u5B9E\u6D4B\u5177\u5907 95%~100% \u6781\u9AD8\u51C6\u786E\u5EA6\uFF09\u3002",
-    "settings.parentTag.name": "\u81EA\u52A8\u7EE7\u627F\u7236\u6807\u7B7E #AI",
-    "settings.parentTag.desc": "\u5F53\u547D\u4E2D\u3010\u5F02\u5E38\u68C0\u6D4B\u3011\u7B49\u5177\u4F53 AI \u5B50\u9886\u57DF\u6807\u7B7E\u65F6\uFF0C\u81EA\u52A8\u5728 Frontmatter \u8FFD\u52A0\u7236\u6807\u7B7E #AI\u3002",
     "settings.quickActions.title": "\u26A1 \u5FEB\u6377\u64CD\u4F5C\u4E0E\u5168\u5E93\u7EF4\u62A4",
     "settings.batch.name": "\u6279\u91CF\u626B\u63CF\u4E0E\u6253\u6807",
     "settings.batch.desc": "\u9009\u62E9\u626B\u63CF\u6574\u4E2A\u77E5\u8BC6\u5E93\u6216\u6307\u5B9A\u6587\u4EF6\u5939\uFF0C\u4E3A\u5176\u4E2D\u7684 Markdown \u7B14\u8BB0\u6DFB\u52A0\u9AD8\u7F6E\u4FE1\u4E14\u5C1A\u672A\u5B58\u5728\u7684\u6807\u7B7E\u3002",
@@ -217,8 +215,6 @@ var translations = {
     "settings.apiKey.toggleTooltip": "Toggle API Key visibility",
     "settings.threshold.name": "Confidence threshold",
     "settings.threshold.desc": "Only tags with a confidence at or above this value are suggested (default 0.70; measured accuracy 95%\u2013100%).",
-    "settings.parentTag.name": "Auto-inherit parent tag #AI",
-    "settings.parentTag.desc": "When a specific AI sub-domain tag is matched, automatically append the parent tag #AI to the frontmatter.",
     "settings.quickActions.title": "\u26A1 Quick actions & vault maintenance",
     "settings.batch.name": "Batch scan and tag notes",
     "settings.batch.desc": "Choose the whole vault or a folder, then add high-confidence tags that are not already present in its Markdown notes.",
@@ -460,7 +456,6 @@ var DEFAULT_SETTINGS = {
   endpoint: "https://api.typesafe.ai/v1/systemone",
   language: "zh",
   confidenceThreshold: 0.7,
-  autoAddParentAiTag: true,
   tags: []
 };
 var JevTaggerSettingTab = class extends import_obsidian3.PluginSettingTab {
@@ -507,12 +502,6 @@ var JevTaggerSettingTab = class extends import_obsidian3.PluginSettingTab {
     new import_obsidian3.Setting(containerEl).setName(t(lang, "settings.threshold.name")).setDesc(t(lang, "settings.threshold.desc")).addSlider(
       (slider) => slider.setLimits(0.1, 0.95, 0.05).setValue(this.plugin.settings.confidenceThreshold).setDynamicTooltip().onChange(async (value) => {
         this.plugin.settings.confidenceThreshold = value;
-        await this.plugin.saveSettings();
-      })
-    );
-    new import_obsidian3.Setting(containerEl).setName(t(lang, "settings.parentTag.name")).setDesc(t(lang, "settings.parentTag.desc")).addToggle(
-      (toggle) => toggle.setValue(this.plugin.settings.autoAddParentAiTag).onChange(async (value) => {
-        this.plugin.settings.autoAddParentAiTag = value;
         await this.plugin.saveSettings();
       })
     );
@@ -884,10 +873,6 @@ var JevTaggerPlugin = class extends import_obsidian5.Plugin {
       }
       if (!currentTags.includes(newTag)) {
         currentTags.push(newTag);
-        modified = true;
-      }
-      if (this.settings.autoAddParentAiTag && (newTag === "\u5F02\u5E38\u68C0\u6D4B" || newTag === "Agent" || newTag === "\u6A21\u578B") && !currentTags.includes("AI")) {
-        currentTags.push("AI");
         modified = true;
       }
       frontmatter.tags = currentTags;
