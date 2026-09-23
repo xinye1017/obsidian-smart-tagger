@@ -43,7 +43,7 @@ var JevClient = class {
     if (!this.apiKey) {
       throw new Error("Jev API Key is not configured. Please set it in the plugin settings.");
     }
-    const enabledTags = tags.filter((t) => t.enabled);
+    const enabledTags = tags.filter((t2) => t2.enabled);
     if (enabledTags.length === 0) {
       return [];
     }
@@ -107,6 +107,173 @@ var import_obsidian3 = require("obsidian");
 
 // src/batchTagModal.ts
 var import_obsidian2 = require("obsidian");
+
+// src/i18n.ts
+var LANGUAGES = ["zh", "en"];
+var LANGUAGE_OPTIONS = {
+  zh: "\u7B80\u4F53\u4E2D\u6587",
+  en: "English"
+};
+var translations = {
+  zh: {
+    "plugin.ribbon": "Smart Tagger: \u667A\u80FD\u6807\u7B7E\u63A8\u8350",
+    "notice.noActiveFile": "\u8BF7\u5148\u5728\u7F16\u8F91\u5668\u4E2D\u6253\u5F00\u4E00\u7BC7\u7B14\u8BB0\u3002",
+    "notice.analyzing": "Jev \u6B63\u5728\u5206\u6790\u7B14\u8BB0: {name}...",
+    "notice.noEligibleTags": "\u672A\u68C0\u6D4B\u5230\u7F6E\u4FE1\u5EA6 \u2265 {threshold}% \u7684\u65B0\u6807\u7B7E\u3002",
+    "notice.autoApplySuccess": "\u5DF2\u6210\u529F\u81EA\u52A8\u8FFD\u52A0 {count} \u4E2A\u9AD8\u7F6E\u4FE1\u6807\u7B7E\uFF01",
+    "notice.tagsAlreadyExist": "\u76F8\u5173\u6807\u7B7E\u5747\u5DF2\u5B58\u5728\u4E8E\u7B14\u8BB0\u4E2D\u3002",
+    "notice.autoApplyFailed": "\u81EA\u52A8\u6253\u6807\u5931\u8D25: {error}",
+    "notice.tagAdded": "\u5DF2\u6DFB\u52A0\u6807\u7B7E #{tag}",
+    "notice.applyAllSuccess": "\u5DF2\u6210\u529F\u6DFB\u52A0 {count} \u4E2A\u6807\u7B7E\u5230 Frontmatter\uFF01",
+    "notice.noVaultTags": "\u672A\u5728\u77E5\u8BC6\u5E93\u4E2D\u68C0\u6D4B\u5230\u5DF2\u6709\u6807\u7B7E\u3002",
+    "notice.vaultTagsSynced": "\u{1F3F7}\uFE0F \u6807\u7B7E\u5E93\u68C0\u6D4B\u5B8C\u6210\uFF01\u5171\u626B\u63CF\u5230 {total} \u4E2A\u5DF2\u6709\u6807\u7B7E\uFF0C\u81EA\u52A8\u65B0\u53D1\u73B0\u5E76\u540C\u6B65 {added} \u4E2A\u65B0\u6807\u7B7E\u81F3\u89C4\u5219\u5E93\uFF01",
+    "notice.batchComplete": "\u5168\u5E93\u6253\u6807\u5B8C\u6210\uFF01\u626B\u63CF {scanned} \u7BC7\u7B14\u8BB0\uFF0C\u4E3A {modified} \u7BC7\u7B14\u8BB0\u8FFD\u52A0\u4E86 {added} \u4E2A\u65B0\u6807\u7B7E\u3002",
+    "notice.predictFailed": "Smart Tagger \u9884\u6D4B\u51FA\u9519: {error}",
+    "command.suggestTags": "\u4E3A\u5F53\u524D\u6D3B\u52A8\u7B14\u8BB0\u63A8\u8350\u6807\u7B7E (Suggest Tags for Active Note)",
+    "command.autoApply": "\u4E00\u952E\u81EA\u52A8\u5E94\u7528\u9AD8\u7F6E\u4FE1\u6807\u7B7E\u5230\u5F53\u524D\u7B14\u8BB0 (Auto-apply Tags to Active Note)",
+    "command.batchTagAll": "\u4E00\u952E\u4E3A\u6240\u6709\u7B14\u8BB0\u626B\u63CF\u5E76\u6DFB\u52A0\u9AD8\u7F6E\u4FE1\u6807\u7B7E (Batch Tag All Notes in Vault)",
+    "command.syncVaultTags": "\u81EA\u52A8\u68C0\u6D4B\u5E76\u540C\u6B65\u77E5\u8BC6\u5E93\u6807\u7B7E\u5E93 (Detect and Sync Vault Tags)",
+    "menu.suggestTags": "Smart Tagger: \u667A\u80FD\u6807\u7B7E\u63A8\u8350",
+    "settings.title": "Smart Tagger \u8BBE\u7F6E",
+    "settings.subtitle": "\u57FA\u4E8E TypeSafe Jev System-1 \u6A21\u578B\u7684\u6BEB\u79D2\u7EA7\u667A\u80FD\u7B14\u8BB0\u6807\u7B7E\u63A8\u8350\u4E0E\u5168\u81EA\u52A8\u5206\u7C7B\u52A9\u624B\u3002",
+    "settings.language.name": "\u754C\u9762\u8BED\u8A00 (Language)",
+    "settings.language.desc": "\u9009\u62E9\u63D2\u4EF6\u754C\u9762\u7684\u663E\u793A\u8BED\u8A00\u3002\u6807\u7B7E\u89C4\u5219\u5E93\u5185\u5BB9\u4E0D\u4F1A\u968F\u8BED\u8A00\u5207\u6362\u800C\u6539\u53D8\u3002",
+    "settings.apiKey.name": "Jev API Key",
+    "settings.apiKey.desc": "\u4F60\u7684 TypeSafe Jev \u5B98\u65B9 API \u5BC6\u94A5\uFF08\u8F93\u5165\u540E\u4EE5\u5BC6\u7801\u5BC6\u6587\u906E\u7F69\u4FDD\u62A4\uFF09\u3002",
+    "settings.apiKey.toggleTooltip": "\u5207\u6362\u663E\u793A/\u9690\u85CF API Key",
+    "settings.threshold.name": "\u7F6E\u4FE1\u5EA6\u63A8\u8350\u9608\u503C",
+    "settings.threshold.desc": "\u4EC5\u63A8\u8350\u7F6E\u4FE1\u5EA6\u5927\u4E8E\u7B49\u4E8E\u8BE5\u9608\u503C\u7684\u6807\u7B7E\uFF08\u9ED8\u8BA4 0.70\uFF0C\u5B9E\u6D4B\u5177\u5907 95%~100% \u6781\u9AD8\u51C6\u786E\u5EA6\uFF09\u3002",
+    "settings.parentTag.name": "\u81EA\u52A8\u7EE7\u627F\u7236\u6807\u7B7E #AI",
+    "settings.parentTag.desc": "\u5F53\u547D\u4E2D\u3010\u5F02\u5E38\u68C0\u6D4B\u3011\u7B49\u5177\u4F53 AI \u5B50\u9886\u57DF\u6807\u7B7E\u65F6\uFF0C\u81EA\u52A8\u5728 Frontmatter \u8FFD\u52A0\u7236\u6807\u7B7E #AI\u3002",
+    "settings.quickActions.title": "\u26A1 \u5FEB\u6377\u64CD\u4F5C\u4E0E\u5168\u5E93\u7EF4\u62A4",
+    "settings.batch.name": "\u5168\u5E93\u7B14\u8BB0\u6279\u91CF\u626B\u63CF\u4E0E\u6253\u6807",
+    "settings.batch.desc": "\u6253\u5F00\u5168\u5E93\u6279\u91CF\u6253\u6807\u9762\u677F\uFF0C\u81EA\u52A8\u626B\u63CF\u6574\u4E2A\u77E5\u8BC6\u5E93\u5E76\u4E3A\u6240\u6709\u7B14\u8BB0\u6DFB\u52A0\u9AD8\u7F6E\u4FE1\u672A\u6DFB\u52A0\u6807\u7B7E\u3002",
+    "settings.batch.button": "\u{1F680} \u6253\u5F00\u6279\u91CF\u6253\u6807\u9762\u677F",
+    "settings.sync.name": "\u81EA\u52A8\u68C0\u6D4B\u5E76\u540C\u6B65\u77E5\u8BC6\u5E93\u6807\u7B7E\u5E93",
+    "settings.sync.desc": "\u81EA\u52A8\u626B\u63CF\u77E5\u8BC6\u5E93\u5F53\u524D\u5DF2\u5B58\u5728\u7684\u6240\u6709\u5386\u53F2\u6807\u7B7E\uFF0C\u5E76\u5C06\u65B0\u53D1\u73B0\u7684\u6807\u7B7E\u81EA\u52A8\u8865\u5145\u5230\u4E0B\u65B9\u7684\u89C4\u5219\u5E93\u4E2D\u3002",
+    "settings.sync.button": "\u{1F50D} \u626B\u63CF\u77E5\u8BC6\u5E93\u6807\u7B7E",
+    "settings.tagLibrary.title": "\u6807\u7B7E\u89C4\u5219\u5E93 (Tag Criteria Library)",
+    "settings.tagLibrary.desc": "\u5F53\u524D\u5DF2\u914D\u7F6E\u7684\u76EE\u6807\u6807\u7B7E\u3002\u53EF\u5728\u53F3\u4FA7\u968F\u65F6\u542F\u7528\u6216\u5173\u95ED\u7279\u5B9A\u6807\u7B7E\u7684\u81EA\u52A8\u8BC4\u4F30\u3002",
+    "settings.tagLibrary.tagName": "\u6807\u7B7E #{name}",
+    "settings.reset.name": "\u6062\u590D\u9ED8\u8BA4\u9A8C\u8BC1\u89C4\u5219\u5E93",
+    "settings.reset.desc": "\u5C06\u6240\u6709\u6807\u7B7E\u5224\u5B9A\u89C4\u5219\u6062\u590D\u4E3A\u9996\u53D1\u9A8C\u8BC1\u901A\u8FC7\u7684 4 \u5927\u57FA\u51C6\u5B9A\u4E49\uFF08\u5F02\u5E38\u68C0\u6D4B\u3001\u793E\u4EA4\u5A92\u4F53\u3001\u8D44\u8BAF\u3001AI\uFF09\u3002",
+    "settings.reset.button": "\u6062\u590D\u9ED8\u8BA4\u89C4\u5219",
+    "tagSuggest.title": "\u{1F3F7}\uFE0F Smart Tagger: {name}",
+    "tagSuggest.loadingSubtitle": "\u6B63\u5728\u5411 Jev System-1 \u51B3\u7B56\u6A21\u578B\u83B7\u53D6\u6BEB\u79D2\u7EA7\u6807\u7B7E\u7F6E\u4FE1\u5EA6\u5206\u6790...",
+    "tagSuggest.loading": "AI \u51B3\u7B56\u5206\u6790\u4E2D...",
+    "tagSuggest.analysisFailed": "\u274C \u5206\u6790\u5931\u8D25: {error}",
+    "tagSuggest.resultSubtitle": "\u63A8\u8350\u7F6E\u4FE1\u5EA6\u9608\u503C \u2265 {threshold}%\u3002\u70B9\u51FB\u6309\u94AE\u5373\u53EF\u5B89\u5168\u5199\u5165\u7B14\u8BB0 Frontmatter\u3002",
+    "tagSuggest.empty": "\u672A\u68C0\u6D4B\u5230\u7B26\u5408\u5F53\u524D\u7F6E\u4FE1\u5EA6\u9608\u503C\u7684\u6807\u7B7E\u3002",
+    "tagSuggest.alreadyTagged": "(\u5DF2\u6253\u6807)",
+    "tagSuggest.addButton": "+ \u6DFB\u52A0",
+    "tagSuggest.applyAllButton": "\u26A1 \u4E00\u952E\u5E94\u7528\u6240\u6709\u9AD8\u7F6E\u4FE1\u6807\u7B7E ({count}\u4E2A)",
+    "tagSuggest.close": "\u5173\u95ED",
+    "batch.title": "\u26A1 Smart Tagger: \u5168\u5E93\u6279\u91CF\u626B\u63CF\u6253\u6807",
+    "batch.subtitle": "\u5C06\u5168\u5E93\u626B\u63CF\u7B14\u8BB0\uFF0C\u901A\u8FC7 Jev System-1 \u6A21\u578B\u9AD8\u901F\u5224\u5B9A\u3002\u82E5\u68C0\u6D4B\u5230\u7F6E\u4FE1\u5EA6 \u2265 {threshold}% \u7684\u672A\u6DFB\u52A0\u6807\u7B7E\uFF0C\u5C06\u81EA\u52A8\u5B89\u5168\u5199\u5165 Frontmatter\u3002",
+    "batch.statScanned": "\u5DF2\u626B\u63CF\u7B14\u8BB0",
+    "batch.statModified": "\u547D\u4E2D\u6253\u6807\u7B14\u8BB0",
+    "batch.statAdded": "\u7D2F\u8BA1\u65B0\u589E\u6807\u7B7E",
+    "batch.ready": "\u51C6\u5907\u5C31\u7EEA\uFF0C\u70B9\u51FB\u4E0B\u65B9\u6309\u94AE\u5F00\u59CB\u3002",
+    "batch.logHeader": "\u6267\u884C\u65E5\u5FD7:",
+    "batch.startHint": "\u70B9\u51FB [\u5F00\u59CB\u6279\u91CF\u6253\u6807] \u5373\u523B\u542F\u52A8\u540E\u53F0\u9AD8\u901F\u8BC4\u4F30...",
+    "batch.startButton": "\u{1F680} \u5F00\u59CB\u5168\u5E93\u6279\u91CF\u6253\u6807",
+    "batch.close": "\u5173\u95ED",
+    "batch.stopButton": "\u23F9\uFE0F \u505C\u6B62\u626B\u63CF",
+    "batch.stopping": "\u6B63\u5728\u505C\u6B62...",
+    "batch.finishedButton": "\u5B8C\u6210\u5173\u95ED",
+    "batch.rescanButton": "\u91CD\u65B0\u626B\u63CF",
+    "batch.logStart": "\u5F00\u59CB\u5168\u5E93\u6279\u91CF\u5206\u6790\uFF0C\u76EE\u6807 Markdown \u7B14\u8BB0: {total} \u7BC7",
+    "batch.logCancelled": "\u7528\u6237\u4E3B\u52A8\u4E2D\u6B62\u4E86\u6279\u91CF\u6253\u6807\u3002",
+    "batch.logCurrentFile": "\u6B63\u5728\u5206\u6790 ({index}/{total}): {path}",
+    "batch.logAddedTags": "\u2705 [{name}] \u65B0\u589E\u6807\u7B7E: {tags}",
+    "batch.logError": "\u274C [{name}] \u9519\u8BEF: {error}",
+    "batch.allDone": "\u{1F389} \u6279\u91CF\u6253\u6807\u5168\u90E8\u5B8C\u6210\uFF01"
+  },
+  en: {
+    "plugin.ribbon": "Smart Tagger: Suggest Tags",
+    "notice.noActiveFile": "Please open a note in the editor first.",
+    "notice.analyzing": "Jev is analyzing note: {name}...",
+    "notice.noEligibleTags": "No new tags found at or above the {threshold}% confidence threshold.",
+    "notice.autoApplySuccess": "Successfully appended {count} high-confidence tags!",
+    "notice.tagsAlreadyExist": "All relevant tags already exist in this note.",
+    "notice.autoApplyFailed": "Auto-tagging failed: {error}",
+    "notice.tagAdded": "Added tag #{tag}",
+    "notice.applyAllSuccess": "Successfully added {count} tags to the frontmatter!",
+    "notice.noVaultTags": "No existing tags were detected in this vault.",
+    "notice.vaultTagsSynced": "\u{1F3F7}\uFE0F Tag library sync complete! Scanned {total} existing tags and discovered {added} new tags added to the rule library!",
+    "notice.batchComplete": "Vault batch tagging complete! Scanned {scanned} notes and appended {added} new tags across {modified} notes.",
+    "notice.predictFailed": "Smart Tagger prediction failed: {error}",
+    "command.suggestTags": "Suggest tags for the active note",
+    "command.autoApply": "Auto-apply tags to the active note",
+    "command.batchTagAll": "Batch tag all notes in vault",
+    "command.syncVaultTags": "Detect and sync vault tags",
+    "menu.suggestTags": "Smart Tagger: Suggest Tags",
+    "settings.title": "Smart Tagger Settings",
+    "settings.subtitle": "Millisecond, System-1 intelligent tag suggestion and fully automated classification assistant powered by the TypeSafe Jev model.",
+    "settings.language.name": "Interface language",
+    "settings.language.desc": "Choose the display language of the plugin interface. Tag rule contents do not change with the language.",
+    "settings.apiKey.name": "Jev API Key",
+    "settings.apiKey.desc": "Your official TypeSafe Jev API key (masked as a password after entry).",
+    "settings.apiKey.toggleTooltip": "Toggle API Key visibility",
+    "settings.threshold.name": "Confidence threshold",
+    "settings.threshold.desc": "Only tags with a confidence at or above this value are suggested (default 0.70; measured accuracy 95%\u2013100%).",
+    "settings.parentTag.name": "Auto-inherit parent tag #AI",
+    "settings.parentTag.desc": "When a specific AI sub-domain tag is matched, automatically append the parent tag #AI to the frontmatter.",
+    "settings.quickActions.title": "\u26A1 Quick actions & vault maintenance",
+    "settings.batch.name": "Batch scan and tag the whole vault",
+    "settings.batch.desc": "Open the vault batch tagging panel to scan your entire vault and add high-confidence tags that are not already present.",
+    "settings.batch.button": "\u{1F680} Open batch tagging panel",
+    "settings.sync.name": "Detect and sync vault tag library",
+    "settings.sync.desc": "Scan every tag already used in your vault and automatically add newly discovered tags to the rule library below.",
+    "settings.sync.button": "\u{1F50D} Scan vault tags",
+    "settings.tagLibrary.title": "Tag criteria library",
+    "settings.tagLibrary.desc": "Currently configured target tags. Toggle automatic evaluation for each tag on the right.",
+    "settings.tagLibrary.tagName": "Tag #{name}",
+    "settings.reset.name": "Restore default rule library",
+    "settings.reset.desc": "Reset all tag criteria to the four benchmark definitions validated at launch.",
+    "settings.reset.button": "Restore defaults",
+    "tagSuggest.title": "\u{1F3F7}\uFE0F Smart Tagger: {name}",
+    "tagSuggest.loadingSubtitle": "Requesting millisecond tag confidence analysis from the Jev System-1 decision model...",
+    "tagSuggest.loading": "Running AI decision analysis...",
+    "tagSuggest.analysisFailed": "\u274C Analysis failed: {error}",
+    "tagSuggest.resultSubtitle": "Confidence threshold \u2265 {threshold}%. Click a button to safely write the tag into the note frontmatter.",
+    "tagSuggest.empty": "No tags matched the current confidence threshold.",
+    "tagSuggest.alreadyTagged": "(already tagged)",
+    "tagSuggest.addButton": "+ Add",
+    "tagSuggest.applyAllButton": "\u26A1 Apply all high-confidence tags ({count})",
+    "tagSuggest.close": "Close",
+    "batch.title": "\u26A1 Smart Tagger: Vault batch scan & tag",
+    "batch.subtitle": "Scan the whole vault and let the Jev System-1 model evaluate it at high speed. Any tag at or above the {threshold}% confidence threshold that is not already present will be safely written to the frontmatter.",
+    "batch.statScanned": "Notes scanned",
+    "batch.statModified": "Notes tagged",
+    "batch.statAdded": "Tags added",
+    "batch.ready": "Ready. Click the button below to start.",
+    "batch.logHeader": "Log:",
+    "batch.startHint": "Click [Start batch tagging] to begin high-speed evaluation in the background...",
+    "batch.startButton": "\u{1F680} Start vault batch tagging",
+    "batch.close": "Close",
+    "batch.stopButton": "\u23F9\uFE0F Stop scan",
+    "batch.stopping": "Stopping...",
+    "batch.finishedButton": "Done",
+    "batch.rescanButton": "Rescan",
+    "batch.logStart": "Starting vault-wide batch analysis over {total} markdown notes",
+    "batch.logCancelled": "Batch tagging was cancelled by the user.",
+    "batch.logCurrentFile": "Analyzing ({index}/{total}): {path}",
+    "batch.logAddedTags": "\u2705 [{name}] added tags: {tags}",
+    "batch.logError": "\u274C [{name}] error: {error}",
+    "batch.allDone": "\u{1F389} Batch tagging complete!"
+  }
+};
+function t(language, key, params) {
+  const template = translations[language]?.[key] ?? translations.en[key] ?? key;
+  if (!params) return template;
+  return template.replace(
+    /\{(\w+)\}/g,
+    (match, name) => Object.prototype.hasOwnProperty.call(params, name) ? String(params[name]) : match
+  );
+}
+
+// src/batchTagModal.ts
 var BatchTagModal = class extends import_obsidian2.Modal {
   constructor(app, plugin) {
     super(app);
@@ -119,52 +286,55 @@ var BatchTagModal = class extends import_obsidian2.Modal {
     this.addedTagsCount = 0;
     this.plugin = plugin;
   }
+  tr(key, params) {
+    return t(this.plugin.settings.language, key, params);
+  }
   onOpen() {
     const { contentEl } = this;
     contentEl.empty();
     contentEl.addClass("jev-batch-modal");
     const header = contentEl.createDiv({ cls: "jev-tagger-header" });
-    header.createEl("h3", { text: "\u26A1 Smart Tagger: \u5168\u5E93\u6279\u91CF\u626B\u63CF\u6253\u6807" });
+    header.createEl("h3", { text: this.tr("batch.title") });
     const thresholdPct = Math.round(this.plugin.settings.confidenceThreshold * 100);
     header.createEl("div", {
       cls: "jev-tagger-subtitle",
-      text: `\u5C06\u5168\u5E93\u626B\u63CF\u7B14\u8BB0\uFF0C\u901A\u8FC7 Jev System-1 \u6A21\u578B\u9AD8\u901F\u5224\u5B9A\u3002\u82E5\u68C0\u6D4B\u5230\u7F6E\u4FE1\u5EA6 \u2265 ${thresholdPct}% \u7684\u672A\u6DFB\u52A0\u6807\u7B7E\uFF0C\u5C06\u81EA\u52A8\u5B89\u5168\u5199\u5165 Frontmatter\u3002`
+      text: this.tr("batch.subtitle", { threshold: thresholdPct })
     });
     const statsContainer = contentEl.createDiv({ cls: "jev-batch-stats" });
     const stat1 = statsContainer.createDiv({ cls: "jev-stat-card" });
     this.processedStatEl = stat1.createDiv({ cls: "jev-stat-num", text: "0 / 0" });
-    stat1.createDiv({ cls: "jev-stat-label", text: "\u5DF2\u626B\u63CF\u7B14\u8BB0" });
+    stat1.createDiv({ cls: "jev-stat-label", text: this.tr("batch.statScanned") });
     const stat2 = statsContainer.createDiv({ cls: "jev-stat-card" });
     this.modifiedStatEl = stat2.createDiv({ cls: "jev-stat-num", text: "0" });
-    stat2.createDiv({ cls: "jev-stat-label", text: "\u547D\u4E2D\u6253\u6807\u7B14\u8BB0" });
+    stat2.createDiv({ cls: "jev-stat-label", text: this.tr("batch.statModified") });
     const stat3 = statsContainer.createDiv({ cls: "jev-stat-card" });
     this.addedTagsStatEl = stat3.createDiv({ cls: "jev-stat-num", text: "0" });
-    stat3.createDiv({ cls: "jev-stat-label", text: "\u7D2F\u8BA1\u65B0\u589E\u6807\u7B7E" });
+    stat3.createDiv({ cls: "jev-stat-label", text: this.tr("batch.statAdded") });
     this.currentFileEl = contentEl.createDiv({
       cls: "jev-batch-current-file",
-      text: "\u51C6\u5907\u5C31\u7EEA\uFF0C\u70B9\u51FB\u4E0B\u65B9\u6309\u94AE\u5F00\u59CB\u3002"
+      text: this.tr("batch.ready")
     });
     const progressContainer = contentEl.createDiv({ cls: "jev-progress-bar-container" });
     this.progressFillEl = progressContainer.createDiv({ cls: "jev-progress-bar-fill" });
     this.progressFillEl.style.width = "0%";
     contentEl.createEl("div", {
-      text: "\u6267\u884C\u65E5\u5FD7:",
+      text: this.tr("batch.logHeader"),
       cls: "setting-item-description",
       attr: { style: "margin: 12px 0 4px 0;" }
     });
     this.logContainerEl = contentEl.createDiv({ cls: "jev-batch-log" });
-    this.addLog("\u70B9\u51FB [\u5F00\u59CB\u6279\u91CF\u6253\u6807] \u5373\u523B\u542F\u52A8\u540E\u53F0\u9AD8\u901F\u8BC4\u4F30...", "jev-log-skip");
+    this.addLog(this.tr("batch.startHint"), "jev-log-skip");
     const footer = contentEl.createDiv({ cls: "jev-actions-footer" });
     this.startBtn = footer.createEl("button", {
       cls: "mod-cta",
-      text: "\u{1F680} \u5F00\u59CB\u5168\u5E93\u6279\u91CF\u6253\u6807"
+      text: this.tr("batch.startButton")
     });
     this.startBtn.onclick = () => this.startBatchProcess();
-    this.cancelBtn = footer.createEl("button", { text: "\u5173\u95ED" });
+    this.cancelBtn = footer.createEl("button", { text: this.tr("batch.close") });
     this.cancelBtn.onclick = () => {
       if (this.isRunning) {
         this.isCancelled = true;
-        this.cancelBtn.setText("\u6B63\u5728\u505C\u6B62...");
+        this.cancelBtn.setText(this.tr("batch.stopping"));
         this.cancelBtn.disabled = true;
       } else {
         this.close();
@@ -190,15 +360,17 @@ var BatchTagModal = class extends import_obsidian2.Modal {
     this.isRunning = true;
     this.isCancelled = false;
     this.startBtn.disabled = true;
-    this.cancelBtn.setText("\u23F9\uFE0F \u505C\u6B62\u626B\u63CF");
-    this.addLog(`\u5F00\u59CB\u5168\u5E93\u6279\u91CF\u5206\u6790\uFF0C\u76EE\u6807 Markdown \u7B14\u8BB0: ${this.totalFiles} \u7BC7`, "jev-log-skip");
+    this.cancelBtn.setText(this.tr("batch.stopButton"));
+    this.addLog(this.tr("batch.logStart", { total: this.totalFiles }), "jev-log-skip");
     for (let idx = 0; idx < files.length; idx++) {
       if (this.isCancelled) {
-        this.addLog("\u7528\u6237\u4E3B\u52A8\u4E2D\u6B62\u4E86\u6279\u91CF\u6253\u6807\u3002", "jev-log-skip");
+        this.addLog(this.tr("batch.logCancelled"), "jev-log-skip");
         break;
       }
       const file = files[idx];
-      this.currentFileEl.setText(`\u6B63\u5728\u5206\u6790 (${idx + 1}/${this.totalFiles}): ${file.path}`);
+      this.currentFileEl.setText(
+        this.tr("batch.logCurrentFile", { index: idx + 1, total: this.totalFiles, path: file.path })
+      );
       const pct = Math.round((idx + 1) / this.totalFiles * 100);
       this.progressFillEl.style.width = `${pct}%`;
       try {
@@ -208,8 +380,8 @@ var BatchTagModal = class extends import_obsidian2.Modal {
         const existingTags = /* @__PURE__ */ new Set();
         if (cache?.frontmatter?.tags) {
           const raw = cache.frontmatter.tags;
-          if (Array.isArray(raw)) raw.forEach((t) => existingTags.add(String(t).replace(/^#/, "")));
-          else if (typeof raw === "string") raw.split(/[\s,]+/).forEach((t) => existingTags.add(t.replace(/^#/, "")));
+          if (Array.isArray(raw)) raw.forEach((t2) => existingTags.add(String(t2).replace(/^#/, "")));
+          else if (typeof raw === "string") raw.split(/[\s,]+/).forEach((t2) => existingTags.add(t2.replace(/^#/, "")));
         }
         const toAdd = eligible.filter((r) => !existingTags.has(r.tagName));
         if (toAdd.length > 0) {
@@ -223,13 +395,13 @@ var BatchTagModal = class extends import_obsidian2.Modal {
           }
           if (fileModified) {
             this.modifiedFilesCount++;
-            const tagNames = toAdd.map((t) => `#${t.tagName}`).join(", ");
-            this.addLog(`\u2705 [${file.basename}] \u65B0\u589E\u6807\u7B7E: ${tagNames}`, "jev-log-success");
+            const tagNames = toAdd.map((t2) => `#${t2.tagName}`).join(", ");
+            this.addLog(this.tr("batch.logAddedTags", { name: file.basename, tags: tagNames }), "jev-log-success");
           }
         } else {
         }
       } catch (err) {
-        this.addLog(`\u274C [${file.basename}] \u9519\u8BEF: ${err.message || err}`, "jev-log-skip");
+        this.addLog(this.tr("batch.logError", { name: file.basename, error: err.message || err }), "jev-log-skip");
       }
       this.processedCount = idx + 1;
       this.processedStatEl.setText(`${this.processedCount} / ${this.totalFiles}`);
@@ -238,13 +410,19 @@ var BatchTagModal = class extends import_obsidian2.Modal {
       await new Promise((res) => setTimeout(res, 80));
     }
     this.isRunning = false;
-    this.currentFileEl.setText("\u{1F389} \u6279\u91CF\u6253\u6807\u5168\u90E8\u5B8C\u6210\uFF01");
+    this.currentFileEl.setText(this.tr("batch.allDone"));
     this.progressFillEl.style.width = "100%";
-    this.cancelBtn.setText("\u5B8C\u6210\u5173\u95ED");
+    this.cancelBtn.setText(this.tr("batch.finishedButton"));
     this.cancelBtn.disabled = false;
-    this.startBtn.setText("\u91CD\u65B0\u626B\u63CF");
+    this.startBtn.setText(this.tr("batch.rescanButton"));
     this.startBtn.disabled = false;
-    new import_obsidian2.Notice(`\u5168\u5E93\u6253\u6807\u5B8C\u6210\uFF01\u626B\u63CF ${this.processedCount} \u7BC7\u7B14\u8BB0\uFF0C\u4E3A ${this.modifiedFilesCount} \u7BC7\u7B14\u8BB0\u8FFD\u52A0\u4E86 ${this.addedTagsCount} \u4E2A\u65B0\u6807\u7B7E\u3002`);
+    new import_obsidian2.Notice(
+      this.tr("notice.batchComplete", {
+        scanned: this.processedCount,
+        modified: this.modifiedFilesCount,
+        added: this.addedTagsCount
+      })
+    );
   }
   onClose() {
     this.isCancelled = true;
@@ -287,6 +465,7 @@ var DEFAULT_TAG_DEFINITIONS = [
 var DEFAULT_SETTINGS = {
   apiKey: "",
   endpoint: "https://api.typesafe.ai/v1/systemone",
+  language: "zh",
   confidenceThreshold: 0.7,
   autoAddParentAiTag: true,
   tags: DEFAULT_TAG_DEFINITIONS
@@ -299,14 +478,25 @@ var JevTaggerSettingTab = class extends import_obsidian3.PluginSettingTab {
   display() {
     const { containerEl } = this;
     containerEl.empty();
-    containerEl.createEl("h2", { text: "Smart Tagger \u8BBE\u7F6E" });
+    const lang = this.plugin.settings.language;
+    containerEl.createEl("h2", { text: t(lang, "settings.title") });
     containerEl.createEl("p", {
-      text: "\u57FA\u4E8E TypeSafe Jev System-1 \u6A21\u578B\u7684\u6BEB\u79D2\u7EA7\u667A\u80FD\u7B14\u8BB0\u6807\u7B7E\u63A8\u8350\u4E0E\u5168\u81EA\u52A8\u5206\u7C7B\u52A9\u624B\u3002",
+      text: t(lang, "settings.subtitle"),
       cls: "setting-item-description"
+    });
+    new import_obsidian3.Setting(containerEl).setName(t(lang, "settings.language.name")).setDesc(t(lang, "settings.language.desc")).addDropdown((dropdown) => {
+      LANGUAGES.forEach((key) => {
+        dropdown.addOption(key, LANGUAGE_OPTIONS[key]);
+      });
+      dropdown.setValue(lang).onChange(async (value) => {
+        this.plugin.settings.language = value;
+        await this.plugin.saveSettings();
+        this.display();
+      });
     });
     let keyInputEl;
     let isRevealed = false;
-    new import_obsidian3.Setting(containerEl).setName("Jev API Key").setDesc("\u4F60\u7684 TypeSafe Jev \u5B98\u65B9 API \u5BC6\u94A5\uFF08\u8F93\u5165\u540E\u4EE5\u5BC6\u7801\u5BC6\u6587\u906E\u7F69\u4FDD\u62A4\uFF09\u3002").addText((text) => {
+    new import_obsidian3.Setting(containerEl).setName(t(lang, "settings.apiKey.name")).setDesc(t(lang, "settings.apiKey.desc")).addText((text) => {
       keyInputEl = text.inputEl;
       keyInputEl.type = "password";
       keyInputEl.placeholder = "apikey_...";
@@ -315,52 +505,52 @@ var JevTaggerSettingTab = class extends import_obsidian3.PluginSettingTab {
         await this.plugin.saveSettings();
       });
     }).addExtraButton((btn) => {
-      btn.setIcon("eye-off").setTooltip("\u5207\u6362\u663E\u793A/\u9690\u85CF API Key").onClick(() => {
+      btn.setIcon("eye-off").setTooltip(t(lang, "settings.apiKey.toggleTooltip")).onClick(() => {
         isRevealed = !isRevealed;
         keyInputEl.type = isRevealed ? "text" : "password";
         btn.setIcon(isRevealed ? "eye" : "eye-off");
       });
     });
-    new import_obsidian3.Setting(containerEl).setName("\u7F6E\u4FE1\u5EA6\u63A8\u8350\u9608\u503C").setDesc("\u4EC5\u63A8\u8350\u7F6E\u4FE1\u5EA6\u5927\u4E8E\u7B49\u4E8E\u8BE5\u9608\u503C\u7684\u6807\u7B7E\uFF08\u9ED8\u8BA4 0.70\uFF0C\u5B9E\u6D4B\u5177\u5907 95%~100% \u6781\u9AD8\u51C6\u786E\u5EA6\uFF09\u3002").addSlider(
+    new import_obsidian3.Setting(containerEl).setName(t(lang, "settings.threshold.name")).setDesc(t(lang, "settings.threshold.desc")).addSlider(
       (slider) => slider.setLimits(0.1, 0.95, 0.05).setValue(this.plugin.settings.confidenceThreshold).setDynamicTooltip().onChange(async (value) => {
         this.plugin.settings.confidenceThreshold = value;
         await this.plugin.saveSettings();
       })
     );
-    new import_obsidian3.Setting(containerEl).setName("\u81EA\u52A8\u7EE7\u627F\u7236\u6807\u7B7E #AI").setDesc("\u5F53\u547D\u4E2D\u3010\u5F02\u5E38\u68C0\u6D4B\u3011\u7B49\u5177\u4F53 AI \u5B50\u9886\u57DF\u6807\u7B7E\u65F6\uFF0C\u81EA\u52A8\u5728 Frontmatter \u8FFD\u52A0\u7236\u6807\u7B7E #AI\u3002").addToggle(
+    new import_obsidian3.Setting(containerEl).setName(t(lang, "settings.parentTag.name")).setDesc(t(lang, "settings.parentTag.desc")).addToggle(
       (toggle) => toggle.setValue(this.plugin.settings.autoAddParentAiTag).onChange(async (value) => {
         this.plugin.settings.autoAddParentAiTag = value;
         await this.plugin.saveSettings();
       })
     );
-    containerEl.createEl("h3", { text: "\u26A1 \u5FEB\u6377\u64CD\u4F5C\u4E0E\u5168\u5E93\u7EF4\u62A4" });
-    new import_obsidian3.Setting(containerEl).setName("\u5168\u5E93\u7B14\u8BB0\u6279\u91CF\u626B\u63CF\u4E0E\u6253\u6807").setDesc("\u6253\u5F00\u5168\u5E93\u6279\u91CF\u6253\u6807\u9762\u677F\uFF0C\u81EA\u52A8\u626B\u63CF\u6574\u4E2A\u77E5\u8BC6\u5E93\u5E76\u4E3A\u6240\u6709\u7B14\u8BB0\u6DFB\u52A0\u9AD8\u7F6E\u4FE1\u672A\u6DFB\u52A0\u6807\u7B7E\u3002").addButton(
-      (btn) => btn.setButtonText("\u{1F680} \u6253\u5F00\u6279\u91CF\u6253\u6807\u9762\u677F").setCta().onClick(() => {
+    containerEl.createEl("h3", { text: t(lang, "settings.quickActions.title") });
+    new import_obsidian3.Setting(containerEl).setName(t(lang, "settings.batch.name")).setDesc(t(lang, "settings.batch.desc")).addButton(
+      (btn) => btn.setButtonText(t(lang, "settings.batch.button")).setCta().onClick(() => {
         new BatchTagModal(this.app, this.plugin).open();
       })
     );
-    new import_obsidian3.Setting(containerEl).setName("\u81EA\u52A8\u68C0\u6D4B\u5E76\u540C\u6B65\u77E5\u8BC6\u5E93\u6807\u7B7E\u5E93").setDesc("\u81EA\u52A8\u626B\u63CF\u77E5\u8BC6\u5E93\u5F53\u524D\u5DF2\u5B58\u5728\u7684\u6240\u6709\u5386\u53F2\u6807\u7B7E\uFF0C\u5E76\u5C06\u65B0\u53D1\u73B0\u7684\u6807\u7B7E\u81EA\u52A8\u8865\u5145\u5230\u4E0B\u65B9\u7684\u89C4\u5219\u5E93\u4E2D\u3002").addButton(
-      (btn) => btn.setButtonText("\u{1F50D} \u626B\u63CF\u77E5\u8BC6\u5E93\u6807\u7B7E").onClick(async () => {
+    new import_obsidian3.Setting(containerEl).setName(t(lang, "settings.sync.name")).setDesc(t(lang, "settings.sync.desc")).addButton(
+      (btn) => btn.setButtonText(t(lang, "settings.sync.button")).onClick(async () => {
         await this.plugin.detectAndSyncVaultTags();
         this.display();
       })
     );
-    containerEl.createEl("h3", { text: "\u6807\u7B7E\u89C4\u5219\u5E93 (Tag Criteria Library)" });
+    containerEl.createEl("h3", { text: t(lang, "settings.tagLibrary.title") });
     containerEl.createEl("p", {
-      text: "\u5F53\u524D\u5DF2\u914D\u7F6E\u7684\u76EE\u6807\u6807\u7B7E\u3002\u53EF\u5728\u53F3\u4FA7\u968F\u65F6\u542F\u7528\u6216\u5173\u95ED\u7279\u5B9A\u6807\u7B7E\u7684\u81EA\u52A8\u8BC4\u4F30\u3002",
+      text: t(lang, "settings.tagLibrary.desc"),
       cls: "setting-item-description"
     });
     this.plugin.settings.tags.forEach((tag, index) => {
       const tagContainer = containerEl.createDiv({ cls: "jev-setting-tag-box" });
-      new import_obsidian3.Setting(tagContainer).setName(`\u6807\u7B7E #${tag.name}`).setDesc(tag.instructions).addToggle(
+      new import_obsidian3.Setting(tagContainer).setName(t(lang, "settings.tagLibrary.tagName", { name: tag.name })).setDesc(tag.instructions).addToggle(
         (toggle) => toggle.setValue(tag.enabled).onChange(async (val) => {
           this.plugin.settings.tags[index].enabled = val;
           await this.plugin.saveSettings();
         })
       );
     });
-    new import_obsidian3.Setting(containerEl).setName("\u6062\u590D\u9ED8\u8BA4\u9A8C\u8BC1\u89C4\u5219\u5E93").setDesc("\u5C06\u6240\u6709\u6807\u7B7E\u5224\u5B9A\u89C4\u5219\u6062\u590D\u4E3A\u9996\u53D1\u9A8C\u8BC1\u901A\u8FC7\u7684 4 \u5927\u57FA\u51C6\u5B9A\u4E49\uFF08\u5F02\u5E38\u68C0\u6D4B\u3001\u793E\u4EA4\u5A92\u4F53\u3001\u8D44\u8BAF\u3001AI\uFF09\u3002").addButton(
-      (btn) => btn.setButtonText("\u6062\u590D\u9ED8\u8BA4\u89C4\u5219").onClick(async () => {
+    new import_obsidian3.Setting(containerEl).setName(t(lang, "settings.reset.name")).setDesc(t(lang, "settings.reset.desc")).addButton(
+      (btn) => btn.setButtonText(t(lang, "settings.reset.button")).onClick(async () => {
         this.plugin.settings.tags = JSON.parse(JSON.stringify(DEFAULT_TAG_DEFINITIONS));
         await this.plugin.saveSettings();
         this.display();
@@ -380,19 +570,22 @@ var TagSuggestModal = class extends import_obsidian4.Modal {
     this.existingTags = /* @__PURE__ */ new Set();
     this.isLoading = true;
   }
+  tr(key, params) {
+    return t(this.plugin.settings.language, key, params);
+  }
   async onOpen() {
     const { contentEl } = this;
     contentEl.empty();
     contentEl.addClass("jev-tagger-modal");
     const header = contentEl.createDiv({ cls: "jev-tagger-header" });
-    header.createEl("h3", { text: `\u{1F3F7}\uFE0F Smart Tagger: ${this.file.basename}` });
+    header.createEl("h3", { text: this.tr("tagSuggest.title", { name: this.file.basename }) });
     header.createEl("div", {
       cls: "jev-tagger-subtitle",
-      text: "\u6B63\u5728\u5411 Jev System-1 \u51B3\u7B56\u6A21\u578B\u83B7\u53D6\u6BEB\u79D2\u7EA7\u6807\u7B7E\u7F6E\u4FE1\u5EA6\u5206\u6790..."
+      text: this.tr("tagSuggest.loadingSubtitle")
     });
     const loadingEl = contentEl.createDiv({ cls: "jev-loading-container" });
     loadingEl.createDiv({ cls: "jev-spinner" });
-    loadingEl.createEl("span", { text: "AI \u51B3\u7B56\u5206\u6790\u4E2D..." });
+    loadingEl.createEl("span", { text: this.tr("tagSuggest.loading") });
     await this.readExistingTags();
     try {
       this.results = await this.plugin.evaluateFile(this.file);
@@ -402,9 +595,9 @@ var TagSuggestModal = class extends import_obsidian4.Modal {
       loadingEl.empty();
       loadingEl.createEl("div", {
         cls: "setting-item-description",
-        text: `\u274C \u5206\u6790\u5931\u8D25: ${error.message || error}`
+        text: this.tr("tagSuggest.analysisFailed", { error: error.message || error })
       });
-      new import_obsidian4.Notice(`Smart Tagger \u9884\u6D4B\u51FA\u9519: ${error.message || error}`);
+      new import_obsidian4.Notice(this.tr("notice.predictFailed", { error: error.message || error }));
     }
   }
   async readExistingTags() {
@@ -412,9 +605,9 @@ var TagSuggestModal = class extends import_obsidian4.Modal {
     if (cache?.frontmatter?.tags) {
       const raw = cache.frontmatter.tags;
       if (Array.isArray(raw)) {
-        raw.forEach((t) => this.existingTags.add(String(t).replace(/^#/, "")));
+        raw.forEach((t2) => this.existingTags.add(String(t2).replace(/^#/, "")));
       } else if (typeof raw === "string") {
-        raw.split(/[\s,]+/).forEach((t) => this.existingTags.add(t.replace(/^#/, "")));
+        raw.split(/[\s,]+/).forEach((t2) => this.existingTags.add(t2.replace(/^#/, "")));
       }
     }
   }
@@ -422,17 +615,17 @@ var TagSuggestModal = class extends import_obsidian4.Modal {
     const { contentEl } = this;
     contentEl.empty();
     const header = contentEl.createDiv({ cls: "jev-tagger-header" });
-    header.createEl("h3", { text: `\u{1F3F7}\uFE0F Smart Tagger: ${this.file.basename}` });
+    header.createEl("h3", { text: this.tr("tagSuggest.title", { name: this.file.basename }) });
     const thresholdPct = Math.round(this.plugin.settings.confidenceThreshold * 100);
     header.createEl("div", {
       cls: "jev-tagger-subtitle",
-      text: `\u63A8\u8350\u7F6E\u4FE1\u5EA6\u9608\u503C \u2265 ${thresholdPct}%\u3002\u70B9\u51FB\u6309\u94AE\u5373\u53EF\u5B89\u5168\u5199\u5165\u7B14\u8BB0 Frontmatter\u3002`
+      text: this.tr("tagSuggest.resultSubtitle", { threshold: thresholdPct })
     });
     const tagList = contentEl.createDiv({ cls: "jev-tag-list" });
     if (this.results.length === 0) {
       tagList.createDiv({
         cls: "setting-item-description",
-        text: "\u672A\u68C0\u6D4B\u5230\u7B26\u5408\u5F53\u524D\u7F6E\u4FE1\u5EA6\u9608\u503C\u7684\u6807\u7B7E\u3002"
+        text: this.tr("tagSuggest.empty")
       });
     } else {
       this.results.forEach((res) => {
@@ -443,7 +636,7 @@ var TagSuggestModal = class extends import_obsidian4.Modal {
         const nameRow = info.createDiv({ cls: "jev-tag-name-row" });
         nameRow.createEl("span", { cls: "jev-tag-badge", text: `#${res.tagName}` });
         if (isExisting) {
-          nameRow.createEl("span", { cls: "jev-tag-existing", text: "(\u5DF2\u6253\u6807)" });
+          nameRow.createEl("span", { cls: "jev-tag-existing", text: this.tr("tagSuggest.alreadyTagged") });
         }
         info.createEl("div", { cls: "jev-tag-desc", text: res.description });
         const progressContainer = info.createDiv({ cls: "jev-progress-bar-container" });
@@ -458,7 +651,7 @@ var TagSuggestModal = class extends import_obsidian4.Modal {
         if (!isExisting) {
           const addBtn = right.createEl("button", {
             cls: "mod-cta jev-btn-add",
-            text: "+ \u6DFB\u52A0"
+            text: this.tr("tagSuggest.addButton")
           });
           addBtn.onclick = async () => {
             await this.addTagToNote(res.tagName);
@@ -473,23 +666,23 @@ var TagSuggestModal = class extends import_obsidian4.Modal {
     if (highConfNewTags.length > 0) {
       const applyAllBtn = footer.createEl("button", {
         cls: "mod-cta",
-        text: `\u26A1 \u4E00\u952E\u5E94\u7528\u6240\u6709\u9AD8\u7F6E\u4FE1\u6807\u7B7E (${highConfNewTags.length}\u4E2A)`
+        text: this.tr("tagSuggest.applyAllButton", { count: highConfNewTags.length })
       });
       applyAllBtn.onclick = async () => {
         for (const tag of highConfNewTags) {
           await this.addTagToNote(tag);
           this.existingTags.add(tag);
         }
-        new import_obsidian4.Notice(`\u5DF2\u6210\u529F\u6DFB\u52A0 ${highConfNewTags.length} \u4E2A\u6807\u7B7E\u5230 Frontmatter\uFF01`);
+        new import_obsidian4.Notice(this.tr("notice.applyAllSuccess", { count: highConfNewTags.length }));
         this.close();
       };
     }
-    const closeBtn = footer.createEl("button", { text: "\u5173\u95ED" });
+    const closeBtn = footer.createEl("button", { text: this.tr("tagSuggest.close") });
     closeBtn.onclick = () => this.close();
   }
   async addTagToNote(tagName) {
     await this.plugin.addTagToFile(this.file, tagName);
-    new import_obsidian4.Notice(`\u5DF2\u6DFB\u52A0\u6807\u7B7E #${tagName}`);
+    new import_obsidian4.Notice(this.tr("notice.tagAdded", { tag: tagName }));
   }
   onClose() {
     const { contentEl } = this;
@@ -499,20 +692,23 @@ var TagSuggestModal = class extends import_obsidian4.Modal {
 
 // src/main.ts
 var JevTaggerPlugin = class extends import_obsidian5.Plugin {
+  tr(key, params) {
+    return t(this.settings.language, key, params);
+  }
   async onload() {
     await this.loadSettings();
     this.jevClient = new JevClient(this.settings.apiKey, this.settings.endpoint);
-    this.addRibbonIcon("tags", "Smart Tagger: \u667A\u80FD\u6807\u7B7E\u63A8\u8350", (evt) => {
+    this.addRibbonIcon("tags", this.tr("plugin.ribbon"), (evt) => {
       const activeFile = this.app.workspace.getActiveFile();
       if (activeFile) {
         new TagSuggestModal(this.app, this, activeFile).open();
       } else {
-        new import_obsidian5.Notice("\u8BF7\u5148\u5728\u7F16\u8F91\u5668\u4E2D\u6253\u5F00\u4E00\u7BC7\u7B14\u8BB0\u3002");
+        new import_obsidian5.Notice(this.tr("notice.noActiveFile"));
       }
     });
     this.addCommand({
       id: "jev-suggest-tags",
-      name: "\u4E3A\u5F53\u524D\u6D3B\u52A8\u7B14\u8BB0\u63A8\u8350\u6807\u7B7E (Suggest Tags for Active Note)",
+      name: this.tr("command.suggestTags"),
       checkCallback: (checking) => {
         const activeFile = this.app.workspace.getActiveFile();
         if (activeFile) {
@@ -526,7 +722,7 @@ var JevTaggerPlugin = class extends import_obsidian5.Plugin {
     });
     this.addCommand({
       id: "jev-auto-apply-tags",
-      name: "\u4E00\u952E\u81EA\u52A8\u5E94\u7528\u9AD8\u7F6E\u4FE1\u6807\u7B7E\u5230\u5F53\u524D\u7B14\u8BB0 (Auto-apply Tags to Active Note)",
+      name: this.tr("command.autoApply"),
       checkCallback: (checking) => {
         const activeFile = this.app.workspace.getActiveFile();
         if (activeFile) {
@@ -540,14 +736,14 @@ var JevTaggerPlugin = class extends import_obsidian5.Plugin {
     });
     this.addCommand({
       id: "jev-batch-tag-all",
-      name: "\u4E00\u952E\u4E3A\u6240\u6709\u7B14\u8BB0\u626B\u63CF\u5E76\u6DFB\u52A0\u9AD8\u7F6E\u4FE1\u6807\u7B7E (Batch Tag All Notes in Vault)",
+      name: this.tr("command.batchTagAll"),
       callback: () => {
         new BatchTagModal(this.app, this).open();
       }
     });
     this.addCommand({
       id: "jev-sync-vault-tags",
-      name: "\u81EA\u52A8\u68C0\u6D4B\u5E76\u540C\u6B65\u77E5\u8BC6\u5E93\u6807\u7B7E\u5E93 (Detect and Sync Vault Tags)",
+      name: this.tr("command.syncVaultTags"),
       callback: async () => {
         await this.detectAndSyncVaultTags();
       }
@@ -556,7 +752,7 @@ var JevTaggerPlugin = class extends import_obsidian5.Plugin {
       this.app.workspace.on("file-menu", (menu, file) => {
         if (file instanceof import_obsidian5.TFile && file.extension === "md") {
           menu.addItem((item) => {
-            item.setTitle("Smart Tagger: \u667A\u80FD\u6807\u7B7E\u63A8\u8350").setIcon("tags").onClick(() => {
+            item.setTitle(this.tr("menu.suggestTags")).setIcon("tags").onClick(() => {
               new TagSuggestModal(this.app, this, file).open();
             });
           });
@@ -621,12 +817,16 @@ var JevTaggerPlugin = class extends import_obsidian5.Plugin {
    * Auto applies tags that meet the threshold
    */
   async autoApplyTags(file) {
-    new import_obsidian5.Notice(`Jev \u6B63\u5728\u5206\u6790\u7B14\u8BB0: ${file.basename}...`);
+    new import_obsidian5.Notice(this.tr("notice.analyzing", { name: file.basename }));
     try {
       const results = await this.evaluateFile(file);
       const eligible = results.filter((r) => r.probability >= this.settings.confidenceThreshold);
       if (eligible.length === 0) {
-        new import_obsidian5.Notice(`\u672A\u68C0\u6D4B\u5230\u7F6E\u4FE1\u5EA6 \u2265 ${Math.round(this.settings.confidenceThreshold * 100)}% \u7684\u65B0\u6807\u7B7E\u3002`);
+        new import_obsidian5.Notice(
+          this.tr("notice.noEligibleTags", {
+            threshold: Math.round(this.settings.confidenceThreshold * 100)
+          })
+        );
         return;
       }
       let addedCount = 0;
@@ -635,12 +835,12 @@ var JevTaggerPlugin = class extends import_obsidian5.Plugin {
         if (added) addedCount++;
       }
       if (addedCount > 0) {
-        new import_obsidian5.Notice(`\u5DF2\u6210\u529F\u81EA\u52A8\u8FFD\u52A0 ${addedCount} \u4E2A\u9AD8\u7F6E\u4FE1\u6807\u7B7E\uFF01`);
+        new import_obsidian5.Notice(this.tr("notice.autoApplySuccess", { count: addedCount }));
       } else {
-        new import_obsidian5.Notice(`\u76F8\u5173\u6807\u7B7E\u5747\u5DF2\u5B58\u5728\u4E8E\u7B14\u8BB0\u4E2D\u3002`);
+        new import_obsidian5.Notice(this.tr("notice.tagsAlreadyExist"));
       }
     } catch (e) {
-      new import_obsidian5.Notice(`\u81EA\u52A8\u6253\u6807\u5931\u8D25: ${e.message || e}`);
+      new import_obsidian5.Notice(this.tr("notice.autoApplyFailed", { error: e.message || e }));
     }
   }
   /**
@@ -652,9 +852,9 @@ var JevTaggerPlugin = class extends import_obsidian5.Plugin {
       let currentTags = [];
       if (frontmatter.tags) {
         if (Array.isArray(frontmatter.tags)) {
-          currentTags = frontmatter.tags.map((t) => String(t).replace(/^#/, ""));
+          currentTags = frontmatter.tags.map((t2) => String(t2).replace(/^#/, ""));
         } else if (typeof frontmatter.tags === "string") {
-          currentTags = frontmatter.tags.split(/[\s,]+/).map((t) => t.replace(/^#/, ""));
+          currentTags = frontmatter.tags.split(/[\s,]+/).map((t2) => t2.replace(/^#/, ""));
         }
       }
       if (!currentTags.includes(newTag)) {
@@ -677,30 +877,30 @@ var JevTaggerPlugin = class extends import_obsidian5.Plugin {
     const allTagsMap = this.app.metadataCache.getTags();
     const tagKeys = Object.keys(allTagsMap);
     if (tagKeys.length === 0) {
-      new import_obsidian5.Notice("\u672A\u5728\u77E5\u8BC6\u5E93\u4E2D\u68C0\u6D4B\u5230\u5DF2\u6709\u6807\u7B7E\u3002");
+      new import_obsidian5.Notice(this.tr("notice.noVaultTags"));
       return { added: 0, total: 0 };
     }
     let addedCount = 0;
-    const existingNames = new Set(this.settings.tags.map((t) => t.name));
+    const existingNames = new Set(this.settings.tags.map((t2) => t2.name));
     const sortedTags = tagKeys.map((rawTag) => ({
       name: rawTag.replace(/^#/, "").trim(),
       count: allTagsMap[rawTag]
-    })).filter((t) => t.name.length > 0 && !t.name.includes("/")).sort((a, b) => b.count - a.count);
-    for (const t of sortedTags) {
-      if (!existingNames.has(t.name)) {
+    })).filter((t2) => t2.name.length > 0 && !t2.name.includes("/")).sort((a, b) => b.count - a.count);
+    for (const t2 of sortedTags) {
+      if (!existingNames.has(t2.name)) {
         this.settings.tags.push({
-          name: t.name,
-          instructions: `Is this note primarily about ${t.name}?`,
-          matchCriteria: `${t.name} and related topics.`,
+          name: t2.name,
+          instructions: `Is this note primarily about ${t2.name}?`,
+          matchCriteria: `${t2.name} and related topics.`,
           otherCriteria: "Other topics.",
           enabled: true
         });
-        existingNames.add(t.name);
+        existingNames.add(t2.name);
         addedCount++;
       }
     }
     await this.saveSettings();
-    new import_obsidian5.Notice(`\u{1F3F7}\uFE0F \u6807\u7B7E\u5E93\u68C0\u6D4B\u5B8C\u6210\uFF01\u5171\u626B\u63CF\u5230 ${sortedTags.length} \u4E2A\u5DF2\u6709\u6807\u7B7E\uFF0C\u81EA\u52A8\u65B0\u53D1\u73B0\u5E76\u540C\u6B65 ${addedCount} \u4E2A\u65B0\u6807\u7B7E\u81F3\u89C4\u5219\u5E93\uFF01`);
+    new import_obsidian5.Notice(this.tr("notice.vaultTagsSynced", { total: sortedTags.length, added: addedCount }));
     return { added: addedCount, total: sortedTags.length };
   }
 };

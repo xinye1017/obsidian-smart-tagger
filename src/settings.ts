@@ -2,10 +2,12 @@ import { App, PluginSettingTab, Setting } from "obsidian";
 import type JevTaggerPlugin from "./main";
 import type { TagDefinition } from "./jevClient";
 import { BatchTagModal } from "./batchTagModal";
+import { Language, LANGUAGES, LANGUAGE_OPTIONS, t } from "./i18n";
 
 export interface JevTaggerSettings {
 	apiKey: string;
 	endpoint: string;
+	language: Language;
 	confidenceThreshold: number;
 	autoAddParentAiTag: boolean; // Automatic derivation rule: add #AI if specific AI sub-tag matched
 	tags: TagDefinition[];
@@ -45,6 +47,7 @@ export const DEFAULT_TAG_DEFINITIONS: TagDefinition[] = [
 export const DEFAULT_SETTINGS: JevTaggerSettings = {
 	apiKey: "",
 	endpoint: "https://api.typesafe.ai/v1/systemone",
+	language: "zh",
 	confidenceThreshold: 0.70,
 	autoAddParentAiTag: true,
 	tags: DEFAULT_TAG_DEFINITIONS,
@@ -62,18 +65,34 @@ export class JevTaggerSettingTab extends PluginSettingTab {
 		const { containerEl } = this;
 		containerEl.empty();
 
-		containerEl.createEl("h2", { text: "Smart Tagger 设置" });
+		const lang = this.plugin.settings.language;
+
+		containerEl.createEl("h2", { text: t(lang, "settings.title") });
 		containerEl.createEl("p", {
-			text: "基于 TypeSafe Jev System-1 模型的毫秒级智能笔记标签推荐与全自动分类助手。",
+			text: t(lang, "settings.subtitle"),
 			cls: "setting-item-description",
 		});
+
+		new Setting(containerEl)
+			.setName(t(lang, "settings.language.name"))
+			.setDesc(t(lang, "settings.language.desc"))
+			.addDropdown((dropdown) => {
+				LANGUAGES.forEach((key) => {
+					dropdown.addOption(key, LANGUAGE_OPTIONS[key]);
+				});
+				dropdown.setValue(lang).onChange(async (value) => {
+					this.plugin.settings.language = value as Language;
+					await this.plugin.saveSettings();
+					this.display();
+				});
+			});
 
 		let keyInputEl: HTMLInputElement;
 		let isRevealed = false;
 
 		new Setting(containerEl)
-			.setName("Jev API Key")
-			.setDesc("你的 TypeSafe Jev 官方 API 密钥（输入后以密码密文遮罩保护）。")
+			.setName(t(lang, "settings.apiKey.name"))
+			.setDesc(t(lang, "settings.apiKey.desc"))
 			.addText((text) => {
 				keyInputEl = text.inputEl;
 				keyInputEl.type = "password";
@@ -86,7 +105,7 @@ export class JevTaggerSettingTab extends PluginSettingTab {
 			})
 			.addExtraButton((btn) => {
 				btn.setIcon("eye-off")
-					.setTooltip("切换显示/隐藏 API Key")
+					.setTooltip(t(lang, "settings.apiKey.toggleTooltip"))
 					.onClick(() => {
 						isRevealed = !isRevealed;
 						keyInputEl.type = isRevealed ? "text" : "password";
@@ -95,8 +114,8 @@ export class JevTaggerSettingTab extends PluginSettingTab {
 			});
 
 		new Setting(containerEl)
-			.setName("置信度推荐阈值")
-			.setDesc("仅推荐置信度大于等于该阈值的标签（默认 0.70，实测具备 95%~100% 极高准确度）。")
+			.setName(t(lang, "settings.threshold.name"))
+			.setDesc(t(lang, "settings.threshold.desc"))
 			.addSlider((slider) =>
 				slider
 					.setLimits(0.1, 0.95, 0.05)
@@ -109,8 +128,8 @@ export class JevTaggerSettingTab extends PluginSettingTab {
 			);
 
 		new Setting(containerEl)
-			.setName("自动继承父标签 #AI")
-			.setDesc("当命中【异常检测】等具体 AI 子领域标签时，自动在 Frontmatter 追加父标签 #AI。")
+			.setName(t(lang, "settings.parentTag.name"))
+			.setDesc(t(lang, "settings.parentTag.desc"))
 			.addToggle((toggle) =>
 				toggle
 					.setValue(this.plugin.settings.autoAddParentAiTag)
@@ -120,14 +139,14 @@ export class JevTaggerSettingTab extends PluginSettingTab {
 					})
 			);
 
-		containerEl.createEl("h3", { text: "⚡ 快捷操作与全库维护" });
+		containerEl.createEl("h3", { text: t(lang, "settings.quickActions.title") });
 
 		new Setting(containerEl)
-			.setName("全库笔记批量扫描与打标")
-			.setDesc("打开全库批量打标面板，自动扫描整个知识库并为所有笔记添加高置信未添加标签。")
+			.setName(t(lang, "settings.batch.name"))
+			.setDesc(t(lang, "settings.batch.desc"))
 			.addButton((btn) =>
 				btn
-					.setButtonText("🚀 打开批量打标面板")
+					.setButtonText(t(lang, "settings.batch.button"))
 					.setCta()
 					.onClick(() => {
 						new BatchTagModal(this.app, this.plugin).open();
@@ -135,18 +154,18 @@ export class JevTaggerSettingTab extends PluginSettingTab {
 			);
 
 		new Setting(containerEl)
-			.setName("自动检测并同步知识库标签库")
-			.setDesc("自动扫描知识库当前已存在的所有历史标签，并将新发现的标签自动补充到下方的规则库中。")
+			.setName(t(lang, "settings.sync.name"))
+			.setDesc(t(lang, "settings.sync.desc"))
 			.addButton((btn) =>
-				btn.setButtonText("🔍 扫描知识库标签").onClick(async () => {
+				btn.setButtonText(t(lang, "settings.sync.button")).onClick(async () => {
 					await this.plugin.detectAndSyncVaultTags();
 					this.display();
 				})
 			);
 
-		containerEl.createEl("h3", { text: "标签规则库 (Tag Criteria Library)" });
+		containerEl.createEl("h3", { text: t(lang, "settings.tagLibrary.title") });
 		containerEl.createEl("p", {
-			text: "当前已配置的目标标签。可在右侧随时启用或关闭特定标签的自动评估。",
+			text: t(lang, "settings.tagLibrary.desc"),
 			cls: "setting-item-description",
 		});
 
@@ -154,7 +173,7 @@ export class JevTaggerSettingTab extends PluginSettingTab {
 			const tagContainer = containerEl.createDiv({ cls: "jev-setting-tag-box" });
 
 			new Setting(tagContainer)
-				.setName(`标签 #${tag.name}`)
+				.setName(t(lang, "settings.tagLibrary.tagName", { name: tag.name }))
 				.setDesc(tag.instructions)
 				.addToggle((toggle) =>
 					toggle.setValue(tag.enabled).onChange(async (val) => {
@@ -165,10 +184,10 @@ export class JevTaggerSettingTab extends PluginSettingTab {
 		});
 
 		new Setting(containerEl)
-			.setName("恢复默认验证规则库")
-			.setDesc("将所有标签判定规则恢复为首发验证通过的 4 大基准定义（异常检测、社交媒体、资讯、AI）。")
+			.setName(t(lang, "settings.reset.name"))
+			.setDesc(t(lang, "settings.reset.desc"))
 			.addButton((btn) =>
-				btn.setButtonText("恢复默认规则").onClick(async () => {
+				btn.setButtonText(t(lang, "settings.reset.button")).onClick(async () => {
 					this.plugin.settings.tags = JSON.parse(JSON.stringify(DEFAULT_TAG_DEFINITIONS));
 					await this.plugin.saveSettings();
 					this.display();

@@ -1,5 +1,6 @@
 import { App, Modal, Notice, TFile } from "obsidian";
 import type JevTaggerPlugin from "./main";
+import { t, TranslationKey } from "./i18n";
 
 export class BatchTagModal extends Modal {
 	private plugin: JevTaggerPlugin;
@@ -27,6 +28,10 @@ export class BatchTagModal extends Modal {
 		this.plugin = plugin;
 	}
 
+	private tr(key: TranslationKey, params?: Record<string, string | number>): string {
+		return t(this.plugin.settings.language, key, params);
+	}
+
 	onOpen() {
 		const { contentEl } = this;
 		contentEl.empty();
@@ -34,11 +39,11 @@ export class BatchTagModal extends Modal {
 
 		// Header
 		const header = contentEl.createDiv({ cls: "jev-tagger-header" });
-		header.createEl("h3", { text: "⚡ Smart Tagger: 全库批量扫描打标" });
+		header.createEl("h3", { text: this.tr("batch.title") });
 		const thresholdPct = Math.round(this.plugin.settings.confidenceThreshold * 100);
 		header.createEl("div", {
 			cls: "jev-tagger-subtitle",
-			text: `将全库扫描笔记，通过 Jev System-1 模型高速判定。若检测到置信度 ≥ ${thresholdPct}% 的未添加标签，将自动安全写入 Frontmatter。`,
+			text: this.tr("batch.subtitle", { threshold: thresholdPct }),
 		});
 
 		// Stat Cards
@@ -46,20 +51,20 @@ export class BatchTagModal extends Modal {
 
 		const stat1 = statsContainer.createDiv({ cls: "jev-stat-card" });
 		this.processedStatEl = stat1.createDiv({ cls: "jev-stat-num", text: "0 / 0" });
-		stat1.createDiv({ cls: "jev-stat-label", text: "已扫描笔记" });
+		stat1.createDiv({ cls: "jev-stat-label", text: this.tr("batch.statScanned") });
 
 		const stat2 = statsContainer.createDiv({ cls: "jev-stat-card" });
 		this.modifiedStatEl = stat2.createDiv({ cls: "jev-stat-num", text: "0" });
-		stat2.createDiv({ cls: "jev-stat-label", text: "命中打标笔记" });
+		stat2.createDiv({ cls: "jev-stat-label", text: this.tr("batch.statModified") });
 
 		const stat3 = statsContainer.createDiv({ cls: "jev-stat-card" });
 		this.addedTagsStatEl = stat3.createDiv({ cls: "jev-stat-num", text: "0" });
-		stat3.createDiv({ cls: "jev-stat-label", text: "累计新增标签" });
+		stat3.createDiv({ cls: "jev-stat-label", text: this.tr("batch.statAdded") });
 
 		// Current file status
 		this.currentFileEl = contentEl.createDiv({
 			cls: "jev-batch-current-file",
-			text: "准备就绪，点击下方按钮开始。",
+			text: this.tr("batch.ready"),
 		});
 
 		// Progress Bar
@@ -69,27 +74,27 @@ export class BatchTagModal extends Modal {
 
 		// Log terminal
 		contentEl.createEl("div", {
-			text: "执行日志:",
+			text: this.tr("batch.logHeader"),
 			cls: "setting-item-description",
 			attr: { style: "margin: 12px 0 4px 0;" },
 		});
 		this.logContainerEl = contentEl.createDiv({ cls: "jev-batch-log" });
-		this.addLog("点击 [开始批量打标] 即刻启动后台高速评估...", "jev-log-skip");
+		this.addLog(this.tr("batch.startHint"), "jev-log-skip");
 
 		// Footer buttons
 		const footer = contentEl.createDiv({ cls: "jev-actions-footer" });
 
 		this.startBtn = footer.createEl("button", {
 			cls: "mod-cta",
-			text: "🚀 开始全库批量打标",
+			text: this.tr("batch.startButton"),
 		});
 		this.startBtn.onclick = () => this.startBatchProcess();
 
-		this.cancelBtn = footer.createEl("button", { text: "关闭" });
+		this.cancelBtn = footer.createEl("button", { text: this.tr("batch.close") });
 		this.cancelBtn.onclick = () => {
 			if (this.isRunning) {
 				this.isCancelled = true;
-				this.cancelBtn.setText("正在停止...");
+				this.cancelBtn.setText(this.tr("batch.stopping"));
 				this.cancelBtn.disabled = true;
 			} else {
 				this.close();
@@ -121,18 +126,20 @@ export class BatchTagModal extends Modal {
 		this.isCancelled = false;
 
 		this.startBtn.disabled = true;
-		this.cancelBtn.setText("⏹️ 停止扫描");
+		this.cancelBtn.setText(this.tr("batch.stopButton"));
 
-		this.addLog(`开始全库批量分析，目标 Markdown 笔记: ${this.totalFiles} 篇`, "jev-log-skip");
+		this.addLog(this.tr("batch.logStart", { total: this.totalFiles }), "jev-log-skip");
 
 		for (let idx = 0; idx < files.length; idx++) {
 			if (this.isCancelled) {
-				this.addLog("用户主动中止了批量打标。", "jev-log-skip");
+				this.addLog(this.tr("batch.logCancelled"), "jev-log-skip");
 				break;
 			}
 
 			const file = files[idx];
-			this.currentFileEl.setText(`正在分析 (${idx + 1}/${this.totalFiles}): ${file.path}`);
+			this.currentFileEl.setText(
+				this.tr("batch.logCurrentFile", { index: idx + 1, total: this.totalFiles, path: file.path })
+			);
 			const pct = Math.round(((idx + 1) / this.totalFiles) * 100);
 			this.progressFillEl.style.width = `${pct}%`;
 
@@ -163,14 +170,14 @@ export class BatchTagModal extends Modal {
 					if (fileModified) {
 						this.modifiedFilesCount++;
 						const tagNames = toAdd.map((t) => `#${t.tagName}`).join(", ");
-						this.addLog(`✅ [${file.basename}] 新增标签: ${tagNames}`, "jev-log-success");
+						this.addLog(this.tr("batch.logAddedTags", { name: file.basename, tags: tagNames }), "jev-log-success");
 					}
 				} else {
 					// No new tags
 					// this.addLog(`跳过 [${file.basename}]：无新高置信标签`, "jev-log-skip");
 				}
 			} catch (err) {
-				this.addLog(`❌ [${file.basename}] 错误: ${err.message || err}`, "jev-log-skip");
+				this.addLog(this.tr("batch.logError", { name: file.basename, error: err.message || err }), "jev-log-skip");
 			}
 
 			this.processedCount = idx + 1;
@@ -183,14 +190,20 @@ export class BatchTagModal extends Modal {
 		}
 
 		this.isRunning = false;
-		this.currentFileEl.setText("🎉 批量打标全部完成！");
+		this.currentFileEl.setText(this.tr("batch.allDone"));
 		this.progressFillEl.style.width = "100%";
-		this.cancelBtn.setText("完成关闭");
+		this.cancelBtn.setText(this.tr("batch.finishedButton"));
 		this.cancelBtn.disabled = false;
-		this.startBtn.setText("重新扫描");
+		this.startBtn.setText(this.tr("batch.rescanButton"));
 		this.startBtn.disabled = false;
 
-		new Notice(`全库打标完成！扫描 ${this.processedCount} 篇笔记，为 ${this.modifiedFilesCount} 篇笔记追加了 ${this.addedTagsCount} 个新标签。`);
+		new Notice(
+			this.tr("notice.batchComplete", {
+				scanned: this.processedCount,
+				modified: this.modifiedFilesCount,
+				added: this.addedTagsCount,
+			})
+		);
 	}
 
 	onClose() {

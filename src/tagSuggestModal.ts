@@ -1,6 +1,7 @@
 import { App, Modal, Notice, TFile } from "obsidian";
 import type { NoteEvaluationResult } from "./jevClient";
 import type JevTaggerPlugin from "./main";
+import { t, TranslationKey } from "./i18n";
 
 export class TagSuggestModal extends Modal {
 	private plugin: JevTaggerPlugin;
@@ -18,6 +19,10 @@ export class TagSuggestModal extends Modal {
 		this.isLoading = true;
 	}
 
+	private tr(key: TranslationKey, params?: Record<string, string | number>): string {
+		return t(this.plugin.settings.language, key, params);
+	}
+
 	async onOpen() {
 		const { contentEl } = this;
 		contentEl.empty();
@@ -25,16 +30,16 @@ export class TagSuggestModal extends Modal {
 
 		// Header
 		const header = contentEl.createDiv({ cls: "jev-tagger-header" });
-		header.createEl("h3", { text: `🏷️ Smart Tagger: ${this.file.basename}` });
+		header.createEl("h3", { text: this.tr("tagSuggest.title", { name: this.file.basename }) });
 		header.createEl("div", {
 			cls: "jev-tagger-subtitle",
-			text: "正在向 Jev System-1 决策模型获取毫秒级标签置信度分析...",
+			text: this.tr("tagSuggest.loadingSubtitle"),
 		});
 
 		// Loading indicator
 		const loadingEl = contentEl.createDiv({ cls: "jev-loading-container" });
 		loadingEl.createDiv({ cls: "jev-spinner" });
-		loadingEl.createEl("span", { text: "AI 决策分析中..." });
+		loadingEl.createEl("span", { text: this.tr("tagSuggest.loading") });
 
 		// Read existing frontmatter tags
 		await this.readExistingTags();
@@ -47,9 +52,9 @@ export class TagSuggestModal extends Modal {
 			loadingEl.empty();
 			loadingEl.createEl("div", {
 				cls: "setting-item-description",
-				text: `❌ 分析失败: ${error.message || error}`,
+				text: this.tr("tagSuggest.analysisFailed", { error: error.message || error }),
 			});
-			new Notice(`Smart Tagger 预测出错: ${error.message || error}`);
+			new Notice(this.tr("notice.predictFailed", { error: error.message || error }));
 		}
 	}
 
@@ -71,11 +76,11 @@ export class TagSuggestModal extends Modal {
 
 		// Header
 		const header = contentEl.createDiv({ cls: "jev-tagger-header" });
-		header.createEl("h3", { text: `🏷️ Smart Tagger: ${this.file.basename}` });
+		header.createEl("h3", { text: this.tr("tagSuggest.title", { name: this.file.basename }) });
 		const thresholdPct = Math.round(this.plugin.settings.confidenceThreshold * 100);
 		header.createEl("div", {
 			cls: "jev-tagger-subtitle",
-			text: `推荐置信度阈值 ≥ ${thresholdPct}%。点击按钮即可安全写入笔记 Frontmatter。`,
+			text: this.tr("tagSuggest.resultSubtitle", { threshold: thresholdPct }),
 		});
 
 		const tagList = contentEl.createDiv({ cls: "jev-tag-list" });
@@ -83,7 +88,7 @@ export class TagSuggestModal extends Modal {
 		if (this.results.length === 0) {
 			tagList.createDiv({
 				cls: "setting-item-description",
-				text: "未检测到符合当前置信度阈值的标签。",
+				text: this.tr("tagSuggest.empty"),
 			});
 		} else {
 			this.results.forEach((res) => {
@@ -98,7 +103,7 @@ export class TagSuggestModal extends Modal {
 				nameRow.createEl("span", { cls: "jev-tag-badge", text: `#${res.tagName}` });
 
 				if (isExisting) {
-					nameRow.createEl("span", { cls: "jev-tag-existing", text: "(已打标)" });
+					nameRow.createEl("span", { cls: "jev-tag-existing", text: this.tr("tagSuggest.alreadyTagged") });
 				}
 
 				info.createEl("div", { cls: "jev-tag-desc", text: res.description });
@@ -119,7 +124,7 @@ export class TagSuggestModal extends Modal {
 				if (!isExisting) {
 					const addBtn = right.createEl("button", {
 						cls: "mod-cta jev-btn-add",
-						text: "+ 添加",
+						text: this.tr("tagSuggest.addButton"),
 					});
 					addBtn.onclick = async () => {
 						await this.addTagToNote(res.tagName);
@@ -140,25 +145,25 @@ export class TagSuggestModal extends Modal {
 		if (highConfNewTags.length > 0) {
 			const applyAllBtn = footer.createEl("button", {
 				cls: "mod-cta",
-				text: `⚡ 一键应用所有高置信标签 (${highConfNewTags.length}个)`,
+				text: this.tr("tagSuggest.applyAllButton", { count: highConfNewTags.length }),
 			});
 			applyAllBtn.onclick = async () => {
 				for (const tag of highConfNewTags) {
 					await this.addTagToNote(tag);
 					this.existingTags.add(tag);
 				}
-				new Notice(`已成功添加 ${highConfNewTags.length} 个标签到 Frontmatter！`);
+				new Notice(this.tr("notice.applyAllSuccess", { count: highConfNewTags.length }));
 				this.close();
 			};
 		}
 
-		const closeBtn = footer.createEl("button", { text: "关闭" });
+		const closeBtn = footer.createEl("button", { text: this.tr("tagSuggest.close") });
 		closeBtn.onclick = () => this.close();
 	}
 
 	private async addTagToNote(tagName: string) {
 		await this.plugin.addTagToFile(this.file, tagName);
-		new Notice(`已添加标签 #${tagName}`);
+		new Notice(this.tr("notice.tagAdded", { tag: tagName }));
 	}
 
 	onClose() {

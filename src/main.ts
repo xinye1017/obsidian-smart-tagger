@@ -3,29 +3,34 @@ import { JevClient, NoteEvaluationResult } from "./jevClient";
 import { DEFAULT_SETTINGS, JevTaggerSettings, JevTaggerSettingTab } from "./settings";
 import { TagSuggestModal } from "./tagSuggestModal";
 import { BatchTagModal } from "./batchTagModal";
+import { t, TranslationKey } from "./i18n";
 
 export default class JevTaggerPlugin extends Plugin {
 	settings: JevTaggerSettings;
 	jevClient: JevClient;
+
+	private tr(key: TranslationKey, params?: Record<string, string | number>): string {
+		return t(this.settings.language, key, params);
+	}
 
 	async onload() {
 		await this.loadSettings();
 		this.jevClient = new JevClient(this.settings.apiKey, this.settings.endpoint);
 
 		// Add Ribbon Icon on the left bar
-		this.addRibbonIcon("tags", "Smart Tagger: 智能标签推荐", (evt: MouseEvent) => {
+		this.addRibbonIcon("tags", this.tr("plugin.ribbon"), (evt: MouseEvent) => {
 			const activeFile = this.app.workspace.getActiveFile();
 			if (activeFile) {
 				new TagSuggestModal(this.app, this, activeFile).open();
 			} else {
-				new Notice("请先在编辑器中打开一篇笔记。");
+				new Notice(this.tr("notice.noActiveFile"));
 			}
 		});
 
 		// Add Command: Open Suggestion Modal
 		this.addCommand({
 			id: "jev-suggest-tags",
-			name: "为当前活动笔记推荐标签 (Suggest Tags for Active Note)",
+			name: this.tr("command.suggestTags"),
 			checkCallback: (checking: boolean) => {
 				const activeFile = this.app.workspace.getActiveFile();
 				if (activeFile) {
@@ -41,7 +46,7 @@ export default class JevTaggerPlugin extends Plugin {
 		// Add Command: Quick Auto-Apply High-Confidence Tags
 		this.addCommand({
 			id: "jev-auto-apply-tags",
-			name: "一键自动应用高置信标签到当前笔记 (Auto-apply Tags to Active Note)",
+			name: this.tr("command.autoApply"),
 			checkCallback: (checking: boolean) => {
 				const activeFile = this.app.workspace.getActiveFile();
 				if (activeFile) {
@@ -57,7 +62,7 @@ export default class JevTaggerPlugin extends Plugin {
 		// Add Command: Batch Tag All Notes
 		this.addCommand({
 			id: "jev-batch-tag-all",
-			name: "一键为所有笔记扫描并添加高置信标签 (Batch Tag All Notes in Vault)",
+			name: this.tr("command.batchTagAll"),
 			callback: () => {
 				new BatchTagModal(this.app, this).open();
 			},
@@ -66,7 +71,7 @@ export default class JevTaggerPlugin extends Plugin {
 		// Add Command: Detect and Sync Vault Tags
 		this.addCommand({
 			id: "jev-sync-vault-tags",
-			name: "自动检测并同步知识库标签库 (Detect and Sync Vault Tags)",
+			name: this.tr("command.syncVaultTags"),
 			callback: async () => {
 				await this.detectAndSyncVaultTags();
 			},
@@ -78,7 +83,7 @@ export default class JevTaggerPlugin extends Plugin {
 				if (file instanceof TFile && file.extension === "md") {
 					menu.addItem((item) => {
 						item
-							.setTitle("Smart Tagger: 智能标签推荐")
+							.setTitle(this.tr("menu.suggestTags"))
 							.setIcon("tags")
 							.onClick(() => {
 								new TagSuggestModal(this.app, this, file).open();
@@ -165,13 +170,17 @@ export default class JevTaggerPlugin extends Plugin {
 	 * Auto applies tags that meet the threshold
 	 */
 	public async autoApplyTags(file: TFile) {
-		new Notice(`Jev 正在分析笔记: ${file.basename}...`);
+		new Notice(this.tr("notice.analyzing", { name: file.basename }));
 		try {
 			const results = await this.evaluateFile(file);
 			const eligible = results.filter((r) => r.probability >= this.settings.confidenceThreshold);
 
 			if (eligible.length === 0) {
-				new Notice(`未检测到置信度 ≥ ${Math.round(this.settings.confidenceThreshold * 100)}% 的新标签。`);
+				new Notice(
+					this.tr("notice.noEligibleTags", {
+						threshold: Math.round(this.settings.confidenceThreshold * 100),
+					})
+				);
 				return;
 			}
 
@@ -182,12 +191,12 @@ export default class JevTaggerPlugin extends Plugin {
 			}
 
 			if (addedCount > 0) {
-				new Notice(`已成功自动追加 ${addedCount} 个高置信标签！`);
+				new Notice(this.tr("notice.autoApplySuccess", { count: addedCount }));
 			} else {
-				new Notice(`相关标签均已存在于笔记中。`);
+				new Notice(this.tr("notice.tagsAlreadyExist"));
 			}
 		} catch (e) {
-			new Notice(`自动打标失败: ${e.message || e}`);
+			new Notice(this.tr("notice.autoApplyFailed", { error: e.message || e }));
 		}
 	}
 
@@ -237,7 +246,7 @@ export default class JevTaggerPlugin extends Plugin {
 		const tagKeys = Object.keys(allTagsMap);
 
 		if (tagKeys.length === 0) {
-			new Notice("未在知识库中检测到已有标签。");
+			new Notice(this.tr("notice.noVaultTags"));
 			return { added: 0, total: 0 };
 		}
 
@@ -268,7 +277,7 @@ export default class JevTaggerPlugin extends Plugin {
 		}
 
 		await this.saveSettings();
-		new Notice(`🏷️ 标签库检测完成！共扫描到 ${sortedTags.length} 个已有标签，自动新发现并同步 ${addedCount} 个新标签至规则库！`);
+		new Notice(this.tr("notice.vaultTagsSynced", { total: sortedTags.length, added: addedCount }));
 		return { added: addedCount, total: sortedTags.length };
 	}
 }
